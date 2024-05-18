@@ -1,0 +1,59 @@
+#xp-ui-root {
+    color: white;
+    position: fixed;
+    top: 0px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(6px);
+}
+
+#xp-ui-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+}
+
+#xp-ui-bar,
+#xp-ui-body {
+    margin: 16px;
+    padding: 8px;
+    border-radius: 16px;
+    border-left: solid 1px var(--xp-accent);
+    border-right: solid 1px var(--xp-accent);
+    background-color: #000;
+}
+
+#xp-ui-bar {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.xp-button,
+#xp-ui-bar button {
+    background-color: #000;
+    padding: 6px 12px;
+    border: solid 1px var(--xp-accent);
+    border-radius: 8px;
+}
+
+.xp-button:hover,
+#xp-ui-bar button:hover {
+    background-color: #222;
+}
+
+#xp-ui-bar button+button {
+    margin-top: 4px;
+}
+
+#xp-ui-filters-textarea {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border-radius: 16px;
+    white-space: nowrap;
+    resize: none;
+    margin-top: 8px;
+}

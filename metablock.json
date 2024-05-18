@@ -1,0 +1,13 @@
+{
+  "name": "X+",
+  "namespace": "X+",
+  "match": [
+    "*://twitter.com/*",
+    "*://x.com/*"
+  ],
+  "run-at": "document-start",
+  "require": [
+    "https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js",
+    "https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"
+  ]
+}

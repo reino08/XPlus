@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-swc": "^0.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.17.2",
+    "rollup-plugin-glob-import": "^0.5.0",
+    "rollup-plugin-styler": "^1.8.0",
+    "rollup-plugin-userscript-metablock": "^0.3.3"
+  },
+  "scripts": {
+    "build": "rollup -wc",
+    "serve": "npx serve -n"
+  }
+}
