@@ -48,7 +48,7 @@ function Filters() {
     }
 }
 
-function compile(code: string): [string, RegExp, string | undefined][] {
+function compile(code: string) {
     return code
         .split("\n")
         .map(x => x.trim())
@@ -58,8 +58,9 @@ function compile(code: string): [string, RegExp, string | undefined][] {
             type,
             x.split("#")[0].trim(),
             x.split("#").slice(1).join("#").trim()
-        ]).map(([type, x, desc]) => {
-            let regex: RegExp;
+        ])
+        .map(([type, x, desc]): [string, RegExp | undefined, string | undefined] => {
+            let regex: RegExp | undefined;
             try {
                 regex = new RegExp(
                     x.substring(x.indexOf("/") + 1, x.lastIndexOf("/")),
@@ -72,8 +73,8 @@ function compile(code: string): [string, RegExp, string | undefined][] {
 
             return [
                 type,
-                regex!, // This is not good
+                regex,
                 desc
             ]
-        })
+        }).filter(([, regex,]) => regex) as [string, RegExp, string | undefined][];
 }
