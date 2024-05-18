@@ -9,5 +9,7 @@
   "require": [
     "https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js",
     "https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"
-  ]
+  ],
+  "homepageURL": "https://github.com/reino08/XPlus",
+  "downloadURL": "https://reino08.github.io/XPlus/X+.user.js"
 }
