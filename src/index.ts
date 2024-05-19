@@ -6,6 +6,7 @@ import * as UI from "./ui/index.ts"
 
 // @ts-ignore Not much can be done about this lint
 import * as Features from "./features/*";
+import { filters } from "./ui/menu.tsx";
 
 Logger.log("Initialized");
 
@@ -17,8 +18,9 @@ for (let feature of Object.values(Features))
     (feature as () => void)();
 
 // Expose some data to make development easier
-window["xp"] = {
+unsafeWindow["xp"] = {
     get loader() { return Webpack.loader },
+    get filters() { return filters },
 };
 
 setTimeout(() => {

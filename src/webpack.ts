@@ -10,17 +10,17 @@ export default class Webpack {
         forceConfigure();
 
         // Create a setter to get it the moment webpack sets it
-        Object.defineProperty(window, webpackChunkName, {
+        Object.defineProperty(unsafeWindow, webpackChunkName, {
             set(chunks: [any]) {
                 // Remove our property and replace it with the array that was just set
-                delete window[webpackChunkName];
-                window[webpackChunkName] = chunks;
+                delete unsafeWindow[webpackChunkName];
+                unsafeWindow[webpackChunkName] = chunks;
 
                 // Webpack changes the push function on the array to load chunks
                 //   so put another setter and wait
                 Object.defineProperty(chunks, "push", {
                     // Webpack retrieves the original function to call in the replacement
-                    get: () => Array.prototype.push, 
+                    get: () => Array.prototype.push,
                     set: (push) => {
                         // The patch will need the original function, so make it available
                         chunks["webpackPush"] = push;

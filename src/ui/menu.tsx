@@ -1,7 +1,14 @@
 import Logger from "../logger.ts";
 import { React } from "../react.ts"
 
-export let filters = compile(localStorage.getItem("xp-filters") || "");
+let initial: string | undefined;
+GM.getValue("xp-filters").then(value => {
+    initial = (value as string | undefined);
+    if (initial)
+        filters = compile(initial);
+});
+
+export let filters: [string, RegExp, string | undefined][] = [];
 
 let tabs: [string, Function][] = [
     ["Filters", Filters],
@@ -33,9 +40,7 @@ const initialFilter =
 # b/^$/ # Empty`;
 
 function Filters() {
-    let [code, setCode] = React.useState(() => {
-        return localStorage.getItem("xp-filters") || initialFilter;
-    });
+    let [code, setCode] = React.useState(() => initial || initialFilter);
 
     return (<>
         <button className="xp-button" onClick={save}>Save and apply</button>
@@ -43,7 +48,7 @@ function Filters() {
     </>);
 
     function save() {
-        localStorage.setItem("xp-filters", code);
+        GM.setValue("xp-filters", code);
         filters = compile(code);
     }
 }
@@ -52,7 +57,7 @@ function compile(code: string) {
     return code
         .split("\n")
         .map(x => x.trim())
-        .filter(x => !x.startsWith("#"))
+        .filter(x => x && !x.startsWith("#"))
         .map(x => x.charAt(0) != "/" ? [x.charAt(0), x.substring(1)] : ["", x])
         .map(([type, x]) => [
             type,
