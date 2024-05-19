@@ -1,11 +1,10 @@
 import Logger from "../logger.ts";
 import { React } from "../react.ts"
 
-let initial: string | undefined;
 GM.getValue("xp-filters").then(value => {
-    initial = (value as string | undefined);
-    if (initial)
-        filters = compile(initial);
+    let code = (value as string | undefined)
+    if (nextCode) filters = compile(nextCode);
+    nextCode = code;
 });
 
 export let filters: [string, RegExp, string | undefined][] = [];
@@ -28,7 +27,8 @@ export default function Menu(props) {
     </>)
 }
 
-const initialFilter =
+let nextCode: string | undefined;
+const initialCode =
     `# Start a line with a hashtag to have it ignored as a comment
 # Press \`Recompile\` when all changes are done to apply them
 # Each line contains one regex statement with an optional comment
@@ -40,7 +40,12 @@ const initialFilter =
 # b/^$/ # Empty`;
 
 function Filters() {
-    let [code, setCode] = React.useState(() => initial || initialFilter);
+    let [code, setCode] = React.useState(initialCode);
+
+    if (nextCode) {
+        setCode(nextCode);
+        nextCode = undefined;
+    }
 
     return (<>
         <button className="xp-button" onClick={save}>Save and apply</button>
