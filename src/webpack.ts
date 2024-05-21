@@ -1,6 +1,8 @@
 import { webpackChunkName } from "../config.json";
+import Logger from "./logger.ts";
 
-type Callback = (key: any, exports: any) => void;
+type Callback = (exports: any, key: number) => void;
+type Predicate = (exports: any, key: number) => boolean;
 
 export default class Webpack {
     static listeners = new Set<Callback>();
@@ -38,10 +40,10 @@ export default class Webpack {
         });
     }
 
-    static get(check: (key: any, exports: any) => boolean): Promise<any> {
+    static get(check: Predicate): Promise<any> {
         return new Promise((res) => {
-            let listener = (key: any, exports: any) => {
-                if (check(key, exports)) {
+            let listener = (exports: any, key: number) => {
+                if (check(exports, key)) {
                     res(exports);
                     Webpack.listeners.delete(listener);
                 }
@@ -57,22 +59,45 @@ export default class Webpack {
 
         return Webpack.get((key) => id == key);
     }
+
+    static getString(string: string, accessor: Function): Promise<any> {
+        let filter = x => {
+            const prop = accessor(x);
+            return prop?.toString == String.toString && prop.toString().includes(string);
+        }
+
+        if (Webpack.loader?.c) {
+            let result = Object.values(Webpack.loader?.c)
+                .map((x: any) => x.exports)
+                .filter(filter)
+            if (result.length != 1) {
+                Logger.warn(`${result.length} results from string search: "${string}"`);
+                return Promise.reject(result.length);
+            }
+            return Promise.resolve(result[0]);
+        }
+
+        return Webpack.get(filter);
+    }
 }
 
 // This function is mostly from BetterDiscord
 function patch(chunks: any, chunk: any) {
     const [, modules] = chunk;
 
-    for (const key in modules) {
+    for (const _key in modules) {
+        const key = Number(_key);
         const module = modules[key];
 
         modules[key] = (...args: [any, any, any]) => {
-            let [, exports, require] = args;
+            let [self, _, require] = args;
+            // self.exports !== _ occasionally.
 
             try {
                 module.apply(null, args);
 
-                for (let listener of [...Webpack.listeners]) listener(key, exports);
+                for (let listener of [...Webpack.listeners])
+                    listener(self.exports, key);
             } catch (error) {
                 console.error(error);
             } finally {

@@ -2,9 +2,7 @@ import Webpack from "../webpack.ts";
 
 // Regions that use DST switch which UTC offset they use.
 export default function init() {
-    Webpack.get(
-        (_, exports) => exports?.Z?.toString?.()?.includes?.("amountOfTime")
-    ).then(exports => {
+    Webpack.getString("amountOfTime", x => x?.Z).then(exports => {
         let original = exports.Z.prototype.render;
         exports.Z.prototype.render = function () {
             let res = original.apply(this, arguments);

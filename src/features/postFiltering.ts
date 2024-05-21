@@ -3,9 +3,7 @@ import { React } from "../react.ts";
 import { filters } from "../ui/menu.tsx";
 
 export default function init() {
-    Webpack.get(
-        (_, exports) => exports?.ZP?.toString?.()?.includes?.("freedom_of_speech_not_reach")
-    ).then(exports => {
+    Webpack.getString("freedom_of_speech_not_reach", exports => exports?.ZP).then(exports => {
         let original = exports.ZP.prototype.render;
         exports.ZP.prototype.render = function () {
             if (!this.filterChecked) {

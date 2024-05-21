@@ -3,9 +3,7 @@ import { React } from "../react.ts";
 import { findInTree } from "../utils.ts";
 
 export default function init() {
-    Webpack.get(
-        (_, exports) => exports?.Z?.toString?.()?.includes?.("_getUserScreenNameNode")
-    ).then(exports => {
+    Webpack.getString("_getUserScreenNameNode", x => x?.Z).then(exports => {
         let original = exports.Z.prototype.render;
         exports.Z.prototype.render = function () {
             let res = original.apply(this, arguments);

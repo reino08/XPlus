@@ -3,9 +3,7 @@ import Webpack from "../webpack.ts";
 export default function init() {
     window["dayjs"].extend(window["dayjs_plugin_relativeTime"]);
 
-    Webpack.get(
-        (_, exports) => exports?.Z?.type?.toString?.()?.includes?.("joinDate")
-    ).then(exports => {
+    Webpack.getString("joinDate", x => x?.Z?.type).then(exports => {
         let original = exports.Z.type;
         exports.Z.type = function () {
             let res = original.apply(this, arguments);

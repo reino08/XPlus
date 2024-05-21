@@ -7,15 +7,8 @@ let element: HTMLDivElement;
 export function init() {
     let button: any;
 
-    Webpack.get(
-        (_, exports) => exports?.ZP?.toString()?.includes("showHasNewItemsIndicator")
-    ).then(exports => {
-        button = exports.ZP;
-    });
-
-    Webpack.get(
-        (_, exports) => exports?.ZP?.toString()?.includes("wideMode")
-    ).then(exports => {
+    Webpack.getString("showHasNewItemsIndicator", x => x?.ZP).then(exports => button = exports.ZP);
+    Webpack.getString("wideMode", x => x?.ZP).then(exports => {
         let original = exports.ZP;
         Object.defineProperty(exports, "ZP", {
             value: function () {

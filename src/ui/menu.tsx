@@ -3,7 +3,7 @@ import { React } from "../react.ts"
 
 GM.getValue("xp-filters").then(value => {
     let code = (value as string | undefined)
-    if (nextCode) filters = compile(nextCode);
+    if (code) filters = compile(code);
     nextCode = code;
 });
 

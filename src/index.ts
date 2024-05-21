@@ -19,7 +19,7 @@ for (let feature of Object.values(Features))
 
 // Expose some data to make development easier
 unsafeWindow["xp"] = {
-    get loader() { return Webpack.loader },
+    webpack: Webpack,
     get filters() { return filters },
 };
 

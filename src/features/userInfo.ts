@@ -3,9 +3,7 @@ import { findInTree } from "../utils.ts";
 import Webpack from "../webpack.ts";
 
 export default function init() {
-    Webpack.get(
-        (_, exports) => exports?.Z?.prototype?.render?.toString?.()?.includes?.("_useUserHoverCardWrapper")
-    ).then(exports => {
+    Webpack.getString("_useUserHoverCardWrapper", x => x?.Z?.prototype?.render).then(exports => {
         let original = exports.Z.prototype.render;
         exports.Z.prototype.render = function () {
             let res = original.apply(this, arguments);
