@@ -15,7 +15,9 @@ export function init() {
                 let res = original.apply(this, arguments);
                 if (!button) return res;
 
-                res.props.children.props.children.push(
+                res.props.children.props.children.splice(
+                    res.props.children.props.children.length - 2,
+                    0,
                     React.createElement(button, {
                         "aria-label": "Open X+ Menu",
                         label: "Open Menu",
