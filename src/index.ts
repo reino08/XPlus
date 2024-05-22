@@ -6,7 +6,7 @@ import * as UI from "./ui/index.ts"
 
 // @ts-ignore Not much can be done about this lint
 import * as Features from "./features/*";
-import { filters } from "./ui/menu.tsx";
+import { filters } from "./ui/filters.tsx";
 
 Logger.log("Initialized");
 

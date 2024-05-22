@@ -1,21 +1,21 @@
 import Webpack from "./webpack.ts";
 
-let React: any;
-let ReactDOM: any;
-let resolve: (value: any) => void;
-let resolveDOM: (value: any) => void;
-let ReactPromise: Promise<any> = new Promise(res => resolve = res);
-let ReactDOMPromise: Promise<any> = new Promise(res => resolveDOM = res);
+export let React: any;
+export let ReactDOM: any;
+export let Link: (arg0: any, arg1: any) => any;
+export let Wait: Promise<any>;
 export function init() {
-    Webpack.get(exports =>
-        typeof exports == "object"
-        && "createElement" in exports
-        && "cloneElement" in exports)
-        .then(exports => resolve(React = exports));
-    Webpack.get(exports =>
-        typeof exports == "object"
-        && "createRoot" in exports)
-        .then(exports => resolveDOM(ReactDOM = exports));
+    Wait = Promise.all([
+        Webpack.get(exports =>
+            typeof exports == "object"
+            && "createElement" in exports
+            && "cloneElement" in exports)
+            .then(exports => React = exports),
+        Webpack.get(exports =>
+            typeof exports == "object"
+            && "createRoot" in exports)
+            .then(exports => ReactDOM = exports),
+        Webpack.getString("link", x => x?.e)
+            .then(exports => Link = exports.e),
+    ])
 }
-
-export { React, ReactDOM, ReactPromise, ReactDOMPromise }

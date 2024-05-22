@@ -11,7 +11,7 @@
 #xp-ui-body {
     display: flex;
     flex-direction: column;
-    min-width: 600px;
+    width: 600px;
 }
 
 #xp-ui-bar,
@@ -31,7 +31,7 @@
 }
 
 .xp-button,
-#xp-ui-bar button {
+#xp-ui-bar>button {
     background-color: #000;
     padding: 6px 12px;
     border: solid 1px var(--xp-accent);
@@ -39,11 +39,11 @@
 }
 
 .xp-button:hover,
-#xp-ui-bar button:hover {
+#xp-ui-bar>button:hover {
     background-color: #222;
 }
 
-#xp-ui-bar button+button {
+#xp-ui-bar>button+button {
     margin-top: 4px;
 }
 
@@ -56,4 +56,22 @@
     white-space: nowrap;
     resize: none;
     margin-top: 8px;
+}
+
+#xp-ui-follow-list {
+    display: flex;
+    align-self: flex-start;
+    flex-wrap: wrap;
+}
+
+#xp-ui-follow-list>a {
+    background-color: #111;
+    padding: 2px 4px;
+    margin: 2px;
+    border-radius: 4px;
+    font-family: "TwitterChirp";
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
 }

@@ -1,5 +1,5 @@
 import Webpack from "../webpack.ts";
-import { React, ReactDOMPromise, ReactPromise } from "../react.ts";
+import { React, ReactDOM, Wait } from "../react.ts";
 import Menu from "./menu.tsx";
 
 let element: HTMLDivElement;
@@ -45,7 +45,7 @@ export function init() {
         })
     });
 
-    Promise.all([ReactPromise, ReactDOMPromise]).then(([React, ReactDOM]) => {
+    Wait.then(() => {
         element = document.createElement("div");
         element.id = "xp-ui-root";
         element.style.display = "none";

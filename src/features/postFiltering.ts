@@ -1,6 +1,6 @@
 import Webpack from "../webpack.ts";
 import { React } from "../react.ts";
-import { filters } from "../ui/menu.tsx";
+import { filters } from "../ui/filters.tsx";
 
 export default function init() {
     Webpack.getString("freedom_of_speech_not_reach", exports => exports?.ZP).then(exports => {
