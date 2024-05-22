@@ -1,5 +1,5 @@
 import Logger from "../logger.ts";
-import { React } from "../react.ts";
+import { React } from "../modules/react.ts";
 
 export let filters: [string, RegExp, string | undefined][] = [];
 

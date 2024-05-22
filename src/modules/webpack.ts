@@ -1,5 +1,5 @@
-import { webpackChunkName } from "../config.json";
-import Logger from "./logger.ts";
+import { webpackChunkName } from "../../config.json";
+import Logger from "../logger.ts";
 
 type Callback = (exports: any, key: number) => void;
 type Predicate = (exports: any, key: number) => boolean;
@@ -7,38 +7,6 @@ type Predicate = (exports: any, key: number) => boolean;
 export default class Webpack {
     static listeners = new Set<Callback>();
     static loader: any;
-
-    static init() {
-        forceConfigure();
-
-        // Create a setter to get it the moment webpack sets it
-        Object.defineProperty(unsafeWindow, webpackChunkName, {
-            set(chunks: [any]) {
-                // Remove our property and replace it with the array that was just set
-                delete unsafeWindow[webpackChunkName];
-                unsafeWindow[webpackChunkName] = chunks;
-
-                // Webpack changes the push function on the array to load chunks
-                //   so put another setter and wait
-                Object.defineProperty(chunks, "push", {
-                    // Webpack retrieves the original function to call in the replacement
-                    get: () => Array.prototype.push,
-                    set: (push) => {
-                        // The patch will need the original function, so make it available
-                        chunks["webpackPush"] = push;
-
-                        // The property still has a setter so it needs to be redefined
-                        Object.defineProperty(chunks, "push", {
-                            value: patch.bind(this, chunks),
-                        });
-
-                        // Get the Webpack loader by adding an empty module with a 3rd parameter
-                        chunks.push([["X+"], {}, (load: any) => (Webpack.loader = load)]);
-                    },
-                });
-            },
-        });
-    }
 
     static get(check: Predicate): Promise<any> {
         return new Promise((res) => {
@@ -80,6 +48,36 @@ export default class Webpack {
         return Webpack.get(filter);
     }
 }
+
+forceConfigure();
+
+// Create a setter to get it the moment webpack sets it
+Object.defineProperty(unsafeWindow, webpackChunkName, {
+    set(chunks: [any]) {
+        // Remove our property and replace it with the array that was just set
+        delete unsafeWindow[webpackChunkName];
+        unsafeWindow[webpackChunkName] = chunks;
+
+        // Webpack changes the push function on the array to load chunks
+        //   so put another setter and wait
+        Object.defineProperty(chunks, "push", {
+            // Webpack retrieves the original function to call in the replacement
+            get: () => Array.prototype.push,
+            set: (push) => {
+                // The patch will need the original function, so make it available
+                chunks["webpackPush"] = push;
+
+                // The property still has a setter so it needs to be redefined
+                Object.defineProperty(chunks, "push", {
+                    value: patch.bind(this, chunks),
+                });
+
+                // Get the Webpack loader by adding an empty module with a 3rd parameter
+                chunks.push([["X+"], {}, (load: any) => (Webpack.loader = load)]);
+            },
+        });
+    },
+});
 
 // This function is mostly from BetterDiscord
 function patch(chunks: any, chunk: any) {

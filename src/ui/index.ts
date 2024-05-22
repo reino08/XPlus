@@ -1,69 +1,67 @@
-import Webpack from "../webpack.ts";
-import { React, ReactDOM, Wait } from "../react.ts";
+import Webpack from "../modules/webpack.ts";
+import { React, ReactDOM, Wait } from "../modules/react.ts";
 import Menu from "./menu.tsx";
 
 let element: HTMLDivElement;
+let button: any;
 
-export function init() {
-    let button: any;
+Webpack.getString("showHasNewItemsIndicator", x => x?.ZP).then(exports => button = exports.ZP);
+Webpack.getString("wideMode", x => x?.ZP).then(exports => {
+    let original = exports.ZP;
+    Object.defineProperty(exports, "ZP", {
+        value: function () {
+            let res = original.apply(this, arguments);
+            if (!button) return res;
 
-    Webpack.getString("showHasNewItemsIndicator", x => x?.ZP).then(exports => button = exports.ZP);
-    Webpack.getString("wideMode", x => x?.ZP).then(exports => {
-        let original = exports.ZP;
-        Object.defineProperty(exports, "ZP", {
-            value: function () {
-                let res = original.apply(this, arguments);
-                if (!button) return res;
+            res.props.children.props.children.splice(
+                res.props.children.props.children.length - 2,
+                0,
+                React.createElement(button, {
+                    "aria-label": "Open X+ Menu",
+                    label: "Open Menu",
+                    layout: "vertical",
+                    rank: 99,
+                    onClick(e: MouseEvent) {
+                        e.preventDefault();
+                        element.style.display = "";
+                    },
+                    renderIcon() {
+                        return React.createElement("div", {
+                            style: {
+                                width: "24px",
+                                height: "24px",
+                                fontSize: "24px",
+                                fontFamily: "TwitterChirp",
+                                lineHeight: "24px",
+                            }
+                        }, "X+")
+                    },
+                    withLabel: res.props.children.props.children[0].props.withLabel,
+                })
+            );
 
-                res.props.children.props.children.splice(
-                    res.props.children.props.children.length - 2,
-                    0,
-                    React.createElement(button, {
-                        "aria-label": "Open X+ Menu",
-                        label: "Open Menu",
-                        layout: "vertical",
-                        rank: 99,
-                        onClick(e: MouseEvent) {
-                            e.preventDefault();
-                            element.style.display = "";
-                        },
-                        renderIcon() {
-                            return React.createElement("div", {
-                                style: {
-                                    width: "24px",
-                                    height: "24px",
-                                    fontSize: "24px",
-                                    fontFamily: "TwitterChirp",
-                                    lineHeight: "24px",
-                                }
-                            }, "X+")
-                        },
-                        withLabel: res.props.children.props.children[0].props.withLabel,
-                    })
-                );
+            return res;
+        }
+    })
+});
 
-                return res;
-            }
-        })
+Wait.then(() => {
+    element = document.createElement("div");
+    element.id = "xp-ui-root";
+    element.style.display = "none";
+    document.body.appendChild(element);
+
+    let root = ReactDOM.createRoot(element);
+    root.render(React.createElement(Menu, {
+        hide: () => element.style.display = "none",
+    }));
+
+    document.addEventListener("keydown", e => {
+        if (e.key == "Escape" && element.style.display != "none") {
+            e.preventDefault();
+            e.stopPropagation(); // Maybe unneeded
+            element.style.display = "none";
+        }
     });
+});
 
-    Wait.then(() => {
-        element = document.createElement("div");
-        element.id = "xp-ui-root";
-        element.style.display = "none";
-        document.body.appendChild(element);
-
-        let root = ReactDOM.createRoot(element);
-        root.render(React.createElement(Menu, {
-            hide: () => element.style.display = "none",
-        }));
-
-        document.addEventListener("keydown", e => {
-            if (e.key == "Escape" && element.style.display != "none") {
-                e.preventDefault();
-                e.stopPropagation(); // Maybe unneeded
-                element.style.display = "none";
-            }
-        });
-    });
-}

@@ -15,7 +15,7 @@ export default {
   },
   plugins: [
     globImport({
-      format: "default",
+      format: "import",
     }),
     resolveJsonModule(),
     styles({ minimize: true }),

@@ -1,5 +1,5 @@
-import { React, Link } from "../react.ts";
-import { list, callbacks } from "../features/followTracker.ts";
+import { React, Link } from "../modules/react.ts";
+import { list, callbacks } from "../modules/features/followTracker.ts";
 
 let once = true;
 export default function FollowList() {

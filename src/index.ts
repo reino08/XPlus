@@ -1,21 +1,13 @@
+// These imports are for side effects:
 import "./style/index.css";
-import Logger from "./logger.ts";
-import Webpack from "./webpack.ts";
-import * as React from "./react.ts";
-import * as UI from "./ui/index.ts"
-
+import "./ui/index.ts"
+// This is the auto-load side-effects folder
 // @ts-ignore Not much can be done about this lint
-import * as Features from "./features/*";
+import "./modules/**/*.ts";
+
+// These imports for for being exposed:
+import Webpack from "./modules/webpack.ts";
 import { filters } from "./ui/filters.tsx";
-
-Logger.log("Initialized");
-
-Webpack.init();
-React.init();
-
-UI.init();
-for (let feature of Object.values(Features))
-    (feature as () => void)();
 
 // Expose some data to make development easier
 unsafeWindow["xp"] = {

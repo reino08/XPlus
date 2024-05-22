@@ -1,4 +1,4 @@
-import { React } from "../react.ts"
+import { React } from "../modules/react.ts"
 import { Filters } from "./filters.tsx";
 import FollowList from "./followList.tsx";
 
