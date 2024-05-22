@@ -1,48 +1,43 @@
 import Webpack from "../modules/webpack.ts";
-import { React, ReactDOM, Wait } from "../modules/react.ts";
 import Menu from "./menu.tsx";
+import { React, ReactDOM, Wait } from "../modules/react.ts";
+import { patchHalves } from "../patch.ts";
 
 let element: HTMLDivElement;
 let button: any;
 
 Webpack.getString("showHasNewItemsIndicator", x => x?.ZP).then(exports => button = exports.ZP);
 Webpack.getString("wideMode", x => x?.ZP).then(exports => {
-    let original = exports.ZP;
-    Object.defineProperty(exports, "ZP", {
-        value: function () {
-            let res = original.apply(this, arguments);
-            if (!button) return res;
+    patchHalves(exports, "ZP", undefined, (_, __, res) => {
+        if (!button) return;
 
-            res.props.children.props.children.splice(
-                res.props.children.props.children.length - 2,
-                0,
-                React.createElement(button, {
-                    "aria-label": "Open X+ Menu",
-                    label: "Open Menu",
-                    layout: "vertical",
-                    rank: 99,
-                    onClick(e: MouseEvent) {
-                        e.preventDefault();
-                        element.style.display = "";
-                    },
-                    renderIcon() {
-                        return React.createElement("div", {
-                            style: {
-                                width: "24px",
-                                height: "24px",
-                                fontSize: "24px",
-                                fontFamily: "TwitterChirp",
-                                lineHeight: "24px",
-                            }
-                        }, "X+")
-                    },
-                    withLabel: res.props.children.props.children[0].props.withLabel,
-                })
-            );
-
-            return res;
-        }
-    })
+        res.props.children.props.children.splice(
+            res.props.children.props.children.length - 2,
+            0,
+            React.createElement(button, {
+                "aria-label": "Open X+ Menu",
+                label: "Open Menu",
+                layout: "vertical",
+                rank: 99,
+                onClick(e: MouseEvent) {
+                    e.preventDefault();
+                    element.style.display = "";
+                },
+                renderIcon() {
+                    return React.createElement("div", {
+                        style: {
+                            width: "24px",
+                            height: "24px",
+                            fontSize: "24px",
+                            fontFamily: "TwitterChirp",
+                            lineHeight: "24px",
+                        }
+                    }, "X+")
+                },
+                withLabel: res.props.children.props.children[0].props.withLabel,
+            })
+        );
+    });
 });
 
 Wait.then(() => {

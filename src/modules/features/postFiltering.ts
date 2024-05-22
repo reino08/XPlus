@@ -1,17 +1,17 @@
 import Webpack from "../webpack.ts";
 import { React } from "../react.ts";
 import { filters } from "../../ui/filters.tsx";
+import { patchHalves } from "../../patch.ts";
 
 Webpack.getString("freedom_of_speech_not_reach", exports => exports?.ZP).then(exports => {
-    let original = exports.ZP.prototype.render;
-    exports.ZP.prototype.render = function () {
-        if (!this.filterChecked) {
-            this.filterChecked = true;
-            this.filterReason = checkFilters(this.props.tweet);
+    patchHalves(exports.ZP.prototype, "render", (self, _, res) => {
+        if (!self.filterChecked) {
+            self.filterChecked = true;
+            self.filterReason = checkFilters(self.props.tweet);
         }
 
-        if (this.filterReason)
-            return React.createElement("div", {
+        if (self.filterReason)
+            res.value = React.createElement("div", {
                 style: {
                     color: "#b8babd",
                     marginLeft: "4px",
@@ -19,11 +19,9 @@ Webpack.getString("freedom_of_speech_not_reach", exports => exports?.ZP).then(ex
                     fontSize: "15px",
                     alignSelf: "center",
                 },
-                onClick: () => (delete this.filterReason, this.forceUpdate()),
-            }, `Filtered: ${this.filterReason}`);
-
-        return original.apply(this, arguments);
-    }
+                onClick: () => (delete self.filterReason, self.forceUpdate()),
+            }, `Filtered: ${self.filterReason}`);
+    });
 });
 
 function checkFilters(tweet: any) {

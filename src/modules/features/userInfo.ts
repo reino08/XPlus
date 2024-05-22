@@ -1,15 +1,12 @@
 import { React } from "../react.ts";
 import { findInTree } from "../../utils.ts";
+import { patchHalves } from "../../patch.ts";
 import Webpack from "../webpack.ts";
 
 Webpack.getString("_useUserHoverCardWrapper", x => x?.Z?.prototype?.render).then(exports => {
-    let original = exports.Z.prototype.render;
-    exports.Z.prototype.render = function () {
-        let res = original.apply(this, arguments);
-
-        let user = findInTree(this._reactInternals, "user", (x: any) => x.pendingProps.user, 25, true);
+    patchHalves(exports.Z.prototype, "render", undefined, (self, _, res) => {
+        let user = findInTree(self._reactInternals, "user", (x: any) => x.pendingProps.user, 25, true);
         if (!user) return res;
-
 
         let children = [
             newElement("span", "like", true, user.favourites_count, 100),
@@ -23,9 +20,7 @@ Webpack.getString("_useUserHoverCardWrapper", x => x?.Z?.prototype?.render).then
         res.props.children.props.children.push(
             React.createElement("div", { className: "xp-userinfo-container" }, children)
         );
-
-        return res;
-    }
+    });
 
     function newElement(type: string, suffix: string, singular: boolean, value: number, threshold: number, extra?: any) {
         let normalized = (Math.abs(value) || 0);

@@ -1,5 +1,6 @@
 import Logger from "../../logger.ts";
 import Webpack from "../webpack.ts";
+import { patchHalves } from "../../patch.ts";
 
 export let list: string[] = [];
 export let callbacks: Function[] = [];
@@ -11,9 +12,7 @@ GM.getValue("xp-follow-list").then(value => {
 });
 
 Webpack.getString("isSuperFollowing", x => x?.Z?.prototype?.render).then(exports => {
-    let original = exports.Z.prototype.render;
-    exports.Z.prototype.render = function () {
-        let res = original.apply(this, arguments);
+    patchHalves(exports.Z.prototype, "render", undefined, (self, _, res) => {
         let onFollow = res.props.onFollow,
             onUnfollow = res.props.onUnfollow;
 
@@ -36,9 +35,7 @@ Webpack.getString("isSuperFollowing", x => x?.Z?.prototype?.render).then(exports
 
             return onUnfollow.apply(this, arguments);
         }
-
-        return res;
-    }
+    });
 })
 
 

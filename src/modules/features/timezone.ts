@@ -1,17 +1,15 @@
 import Webpack from "../webpack.ts";
+import { patchHalves } from "../../patch.ts";
 
 // Regions that use DST switch which UTC offset they use.
 Webpack.getString("amountOfTime", x => x?.Z).then(exports => {
-    let original = exports.Z.prototype.render;
-    exports.Z.prototype.render = function () {
-        let res = original.apply(this, arguments);
-
+    patchHalves(exports.Z.prototype, "render", undefined, (self, _, res) => {
         res.props.children[1].props.onClick = () => {
             let result = prompt("Enter observed time in hours:");
             if (!result) return;
 
             let hours = parseInt(result);
-            let utc = new Date(this.props.timestamp);
+            let utc = new Date(self.props.timestamp);
             let seen = utc.getUTCHours();
             let offset = (hours - seen) % 24;
             if (offset < -12)
@@ -27,7 +25,5 @@ Webpack.getString("amountOfTime", x => x?.Z).then(exports => {
 
             alert(timezone);
         }
-
-        return res;
-    }
+    })
 });
