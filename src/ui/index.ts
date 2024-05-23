@@ -8,17 +8,19 @@ let button: any;
 
 Webpack.getString("showHasNewItemsIndicator", x => x?.ZP).then(exports => button = exports.ZP);
 Webpack.getString("wideMode", x => x?.ZP).then(exports => {
-    patchHalves(exports, "ZP", undefined, (_, __, res) => {
+    patchHalves(exports, "ZP", undefined, (_, args, res) => {
         if (!button) return;
 
-        res.props.children.props.children.splice(
-            res.props.children.props.children.length - 2,
-            0,
+        if (args[0].xpAdded) return;
+        args[0].xpAdded = true;
+
+        let children = res.props.children.props.children;
+        children.splice(children.length - 2, 0,
             React.createElement(button, {
                 "aria-label": "Open X+ Menu",
                 label: "Open Menu",
                 layout: "vertical",
-                rank: 99,
+                rank: 0,
                 onClick(e: MouseEvent) {
                     e.preventDefault();
                     element.style.display = "";
