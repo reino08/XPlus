@@ -3,7 +3,7 @@ import "./style/index.css";
 import "./ui/index.ts"
 // This is the auto-load side-effects folder
 // @ts-ignore Not much can be done about this lint
-import "./modules/**/*.ts";
+import "./modules/**/*.*";
 
 // These imports for for being exposed:
 import Webpack from "./modules/webpack.ts";
