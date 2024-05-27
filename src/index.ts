@@ -8,10 +8,13 @@ import "./modules/**/*.*";
 // These imports for for being exposed:
 import Webpack from "./modules/webpack.ts";
 import { filters } from "./ui/filters.tsx";
+import { React, ReactDOM } from "./modules/react.ts";
 
 // Expose some data to make development easier
 unsafeWindow["xp"] = {
     webpack: Webpack,
+    get React() { return React },
+    get ReactDOM() { return ReactDOM },
     get filters() { return filters },
 };
 
