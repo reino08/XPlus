@@ -10,7 +10,7 @@ Webpack.get(exports => exports?.HWCard).then(exports => {
                 if (prop == "__isProxy") return true;
 
                 let res = Reflect.get(target, prop, recv);
-                if (!prop.endsWith("_label"))
+                if (!res || !prop.endsWith("_label"))
                     return res;
 
                 let countProp = prop.substring(0, 8) + "count";
