@@ -1,30 +1,29 @@
 import Webpack from "../webpack.ts";
-import Logger from "../../logger.ts";
 import { patchHalves } from "../../patch.ts";
 
 Webpack.get(exports => exports?.HWCard).then(exports => {
-    let original = exports.HWCard.prototype.render;
-    exports.HWCard.prototype.render = function () {
-        let res = original.apply(this, arguments);
+    patchHalves(exports.HWCard.prototype, "render", self => {
+        if (self.props.card.binding_values.__isProxy) return;
 
-        let current = this._reactInternals;
-        if (!current?.child) return res;
+        self.props.card.binding_values = new Proxy(self.props.card.binding_values, {
+            get(target, prop: string, recv) {
+                if (prop == "__isProxy") return true;
 
-        while (!current.type?.prototype?._renderChoiceResult) {
-            if (current.child) current = current.child;
-            else if (current.sibling) current = current.sibling;
-            else {
-                Logger.log("Failed to locate vote");
-                return res;
+                let res = Reflect.get(target, prop, recv);
+                if (!prop.endsWith("_label"))
+                    return res;
+
+                let countProp = prop.substring(0, 8) + "count";
+
+                return new Proxy(res, {
+                    get(target2, prop, recv) {
+                        let res = Reflect.get(target2, prop, recv);
+                        if (prop != "string_value") return res;
+
+                        return `${res} (${target[countProp]?.string_value || "0"})`;
+                    }
+                });
             }
-        }
-
-        patchHalves(current.type.prototype, "render", self => {
-            for (let choice of self.props.choices)
-                choice.cta = `${choice.cta} (${choice.count})`;
         });
-
-        exports.HWCard.prototype.render = original;
-        return res;
-    }
+    });
 });
