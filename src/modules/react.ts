@@ -6,14 +6,9 @@ export let Link: (arg0: any, arg1: any) => any;
 export let Wait: Promise<any>;
 
 Wait = Promise.all([
-    Webpack.get(exports =>
-        typeof exports == "object"
-        && "createElement" in exports
-        && "cloneElement" in exports)
+    Webpack.getProps(x => x, "createElement")
         .then(exports => React = exports),
-    Webpack.get(exports =>
-        typeof exports == "object"
-        && "createRoot" in exports)
+    Webpack.getProps(x => x, "createRoot")
         .then(exports => ReactDOM = exports),
     Webpack.getString("link", x => x?.e)
         .then(exports => Link = exports.e),

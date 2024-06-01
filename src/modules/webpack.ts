@@ -47,6 +47,27 @@ export default class Webpack {
 
         return Webpack.get(filter);
     }
+
+    static getProps(accessor: Function, ...props: string[]) {
+        let filter = x => {
+            let obj = accessor(x);
+            if (!obj) return false;
+            return props.some(prop => obj[prop]);
+        }
+
+        if (Webpack.loader?.c) {
+            let result = Object.values(Webpack.loader?.c)
+                .map((x: any) => x.exports)
+                .filter(filter)
+            if (result.length != 1) {
+                Logger.warn(`${result.length} results from prop search: "${props}"`);
+                return Promise.reject(result.length);
+            }
+            return Promise.resolve(result[0]);
+        }
+
+        return Webpack.get(filter);
+    }
 }
 
 forceConfigure();
@@ -93,6 +114,9 @@ function patch(chunks: any, chunk: any) {
 
             try {
                 module.apply(null, args);
+
+                if (self.exports instanceof Object)
+                    Object.defineProperty(self.exports, "__xp_module", { get: () => module });
 
                 for (let listener of [...Webpack.listeners])
                     listener(self.exports, key);

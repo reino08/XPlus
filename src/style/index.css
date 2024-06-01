@@ -31,3 +31,19 @@
     border: solid 1px #444;
     font-size: 14px;
 }
+
+.xp-quote-count {
+    flex: 1;
+    font-family: "TwitterChirp";
+    line-height: 20px;
+    text-decoration: none;
+    color: #71767b;
+    font-size: 13px;
+    margin: auto;
+}
+
+.xp-quote-count::before {
+    content: "Q ";
+    font-size: 16px;
+    vertical-align: bottom;
+}
