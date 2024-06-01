@@ -1,5 +1,6 @@
-import { React, Link } from "../modules/react.ts";
+import { React } from "../modules/react.ts";
 import { list, callbacks } from "../modules/features/followTracker.ts";
+import { makeLink } from "../utils.ts";
 
 let once = true;
 export default function FollowList() {
@@ -11,11 +12,6 @@ export default function FollowList() {
     }
 
     return (<div id="xp-ui-follow-list">
-        {list.map(x => Link("/" + x, e => {
-            let props = e();
-            delete props["style"]; // Breaks 
-            delete props["hrefattrs"]; // [object Object]
-            return <a {...props}>@{x}</a>
-        }))}
+        {list.map(x => makeLink({}, "@" + x, "/" + x))}
     </div>);
 }

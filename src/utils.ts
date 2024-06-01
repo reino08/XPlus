@@ -1,4 +1,5 @@
 import Logger from "./logger.ts";
+import { Link, React } from "./modules/react.ts";
 
 export function findInTree(current: any, prop: string, accessor: (x: any) => any, depth?: number, suppress?: boolean): any | undefined {
     // Walks up the react tree as long as there are elements and
@@ -15,4 +16,12 @@ export function findInTree(current: any, prop: string, accessor: (x: any) => any
     if (!value)
         return void (suppress || Logger.warn(`Failed to find \`${prop}\` in tree`));
     else return value;
+}
+
+export function makeLink(inProps: any, text: string, href: string) {
+    return Link(href, e => {
+        let props = e(inProps);
+        props.style = { ...props.style[1], ...props.style[0] };
+        return React.createElement("a", props, text);
+    });
 }
