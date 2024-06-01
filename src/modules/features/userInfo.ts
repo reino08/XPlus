@@ -11,8 +11,8 @@ Webpack.getString("_useUserHoverCardWrapper", x => x?.Z?.prototype?.render).then
 
         let children = [
             React.createElement("span", ...make("like", true, user.favourites_count, 100)),
-            React.createElement("span", ...make("post", true, user.media_count, 10)),
-            React.createElement("span", ...make("media", false, user.favourites_count, 5)),
+            React.createElement("span", ...make("post", true, user.statuses_count, 10)),
+            React.createElement("span", ...make("media", false, user.media_count, 5)),
             makeLink(...make("list", true, -(user.listed_count || 0), 0), `/${user.screen_name}/lists/memberships`)
         ];
 
