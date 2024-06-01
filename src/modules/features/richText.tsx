@@ -106,7 +106,6 @@ Webpack.getString("_handleEditorContainerRef", x => x?.prototype?.render).then(e
             replace(char => {
                 let codepoint = getOriginal(char).codePointAt(0);
                 if (!codepoint) return char;
-                console.log(codepoint)
 
                 for (let [start, end, base, exclude] of ranges) {
                     if (codepoint < start || codepoint > end) continue;

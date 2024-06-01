@@ -121,7 +121,7 @@ function patch(chunks: any, chunk: any) {
                 for (let listener of [...Webpack.listeners])
                     listener(self.exports, key);
             } catch (error) {
-                console.error(error);
+                Logger.error(error);
             } finally {
                 require.m[key] = module;
             }
