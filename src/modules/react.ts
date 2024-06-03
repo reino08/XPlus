@@ -1,7 +1,9 @@
+import * as ReactTypes from "react";
+import * as ReactDOMTypes from "react-dom";
 import Webpack from "./webpack.ts";
 
-export let React: any;
-export let ReactDOM: any;
+export let React: typeof ReactTypes;
+export let ReactDOM: typeof ReactDOMTypes;
 export let Link: (arg0: any, arg1: any) => any;
 export let Wait: Promise<any>;
 
