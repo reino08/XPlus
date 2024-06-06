@@ -2,8 +2,9 @@ import { TweetUserPatch } from "../patches/tweetUser.ts";
 import { React } from "../react.ts";
 
 TweetUserPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
-    let followed = self.props.tweet.user.followed_by;
-    let following = self.props.tweet.user.following;
+    let user = self.props.tweet.retweeted_status?.user || self.props.tweet.user;
+    let followed = user.followed_by;
+    let following = user.following;
 
     if (!followed && !following) return;
 
