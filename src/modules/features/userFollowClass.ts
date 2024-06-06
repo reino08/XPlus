@@ -12,8 +12,8 @@ TweetUserPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
         ((following && followed)
             ? "mutual"
             : following
-                ? "following"
-                : "followed")
+                ? "followed"
+                : "follower")
 
     res.props.children = [
         React.createElement("span", { className }),
