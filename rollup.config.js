@@ -5,8 +5,6 @@ import styles from "rollup-plugin-styler";
 import swc from "@rollup/plugin-swc";
 import terser from "@rollup/plugin-terser";
 
-let counter = 0;
-
 /** @type {import('rollup').RollupOptions} */
 export default {
   input: "src/index.ts",
