@@ -1,0 +1,16 @@
+#xp-ui-theme-picker>div {
+    font-size: 24px;
+    text-transform: capitalize;
+}
+
+#xp-ui-theme-picker>div>div {
+    display: flex;
+}
+
+#xp-ui-theme-picker button {
+    aspect-ratio: 1/1;
+    border: 0;
+    cursor: pointer;
+    flex: 1 1;
+    margin: 0 4px;
+}

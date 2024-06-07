@@ -1,5 +1,7 @@
 @import url("./ui.css");
 
+/* This rule is not necessary because the theme picker will create this variable, 
+ *   however if the button is intentionally opened fast enough, everything will appear black. */
 :root {
     --xp-accent: #1d9bf0;
 }

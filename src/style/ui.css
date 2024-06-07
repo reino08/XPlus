@@ -1,3 +1,5 @@
+@import url("./themePicker.css");
+
 #xp-ui-root {
     color: white;
     position: fixed;
@@ -6,6 +8,7 @@
     width: 100%;
     height: 100%;
     backdrop-filter: blur(6px);
+    font-family: "TwitterChirp";
 }
 
 #xp-ui-body {
@@ -22,6 +25,7 @@
     border-left: solid 1px var(--xp-accent);
     border-right: solid 1px var(--xp-accent);
     background-color: #000;
+    overflow-y: auto;
 }
 
 #xp-ui-bar {

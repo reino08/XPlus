@@ -1,5 +1,5 @@
 import * as ReactTypes from "react";
-import * as ReactDOMTypes from "react-dom";
+import * as ReactDOMTypes from "react-dom/client";
 import Webpack from "./webpack.ts";
 
 export let React: typeof ReactTypes;

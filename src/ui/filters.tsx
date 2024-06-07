@@ -31,7 +31,7 @@ export function Filters() {
 
     return (<>
         <button className="xp-button" onClick={save}>Save and apply</button>
-        <textarea id="xp-ui-filters-textarea" spellcheck={false} value={code} onChange={e => setCode(e.target.value)} />
+        <textarea id="xp-ui-filters-textarea" spellCheck={false} value={code} onChange={e => setCode(e.target.value)} />
     </>);
 
     function save() {
