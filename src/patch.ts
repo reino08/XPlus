@@ -1,14 +1,22 @@
 import Logger from "./logger.ts";
+import { isProxy } from "./symbols.ts";
 
 type ApplyTrap = (target: any, self: any, args: any[]) => any;
 type NewResult = { args?: any[], value?: any };
 type Prepatch = (self: any, args: any[], res: NewResult) => void;
 type Postpatch = (self: any, args: any[], res: any) => [any] | void;
 
-function __patch(object: any, prop: PropertyKey, replacement: ApplyTrap) {
+function __patch(object: object, prop: PropertyKey, replacement: ApplyTrap) {
+    let value = object?.[prop];
+    if (!(value instanceof Object) || value[isProxy]) return;
+
     Object.defineProperty(object, prop, {
         value: new Proxy(object[prop], {
-            apply: replacement
+            apply: replacement,
+            get(target, propertyKey, receiver) {
+                if (propertyKey == isProxy) return true;
+                return Reflect.get(target, propertyKey, receiver);
+            },
         })
     })
 }
@@ -46,33 +54,7 @@ export class Patch {
     post: Postpatch[] = [];
 
     constructor(object: any, prop: PropertyKey) {
-        patchHalves(
-            object, prop,
-            (self, args, res) => {
-                for (let key in this.pre) {
-                    try {
-                        this.pre[key](self, args, res);
-                        if (res.value) return;
-                        if (res.args)
-                            args = res.args;
-                    } catch (err) {
-                        Logger.error("Exception occurred in pre patch:", err);
-                        delete this.pre[key];
-                    }
-                }
-            }, (self, args, res) => {
-                for (let key in this.post) {
-                    try {
-                        let val = this.post[key](self, args, res);
-                        if (Array.isArray(val) && val.length == 1)
-                            res = val[0];
-                    } catch (err) {
-                        Logger.error("Exception occurred in post patch:", err);
-                        delete this.post[key];
-                    }
-                }
-            }
-        );
+        patchHalves(object, prop, patchHandlePre.bind(this), patchHandlePost.bind(this));
     }
 
     subscribe<T = Prepatch | Postpatch>(list: T[], item: T, priority?: number) {
@@ -88,5 +70,32 @@ export class Patch {
         }
 
         return void list.push(item);
+    }
+}
+
+function patchHandlePre(self, args, res) {
+    for (let key in this.pre) {
+        try {
+            this.pre[key](self, args, res);
+            if (res.value) return;
+            if (res.args)
+                args = res.args;
+        } catch (err) {
+            Logger.error("Exception occurred in pre patch:", err);
+            delete this.pre[key];
+        }
+    }
+}
+
+function patchHandlePost(self, args, res) {
+    for (let key in this.post) {
+        try {
+            let val = this.post[key](self, args, res);
+            if (Array.isArray(val) && val.length == 1)
+                res = val[0];
+        } catch (err) {
+            Logger.error("Exception occurred in post patch:", err);
+            delete this.post[key];
+        }
     }
 }

@@ -6,12 +6,14 @@ import "./ui/index.ts"
 import "./modules/**/*.*";
 
 // These imports for for being exposed:
+import * as symbols from "./symbols.ts";
 import Webpack from "./modules/webpack.ts";
 import { filters } from "./ui/filters.tsx";
 import { React, ReactDOM } from "./modules/react.ts";
 
 // Expose some data to make development easier
 unsafeWindow["xp"] = {
+    symbols,
     webpack: Webpack,
     get React() { return React },
     get ReactDOM() { return ReactDOM },

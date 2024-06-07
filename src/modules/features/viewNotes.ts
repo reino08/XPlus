@@ -12,20 +12,11 @@ Webpack.get(exports => {
     return result;
 }).then(() => {
     patchHalves(target, "render", self => {
-        if (self._getActionItemsAndDividerIndices.__isProxy) return;
-        self._getActionItemsAndDividerIndices = new Proxy(self._getActionItemsAndDividerIndices, {
-            get(target, prop, receiver) {
-                if (prop == "__isProxy") return true;
-                return Reflect.get(target, prop, receiver);
-            },
-            apply(target, thisArg, argArray) {
-                let res: any = Reflect.apply(target, thisArg, argArray);
-                res[0].push({
-                    text: "View community notes",
-                    link: "/i/birdwatch/t/" + self.props.tweet.id_str
-                });
-                return res;
-            },
+        patchHalves(self, "_getActionItemsAndDividerIndices", undefined, (_, __, res: any[]) => {
+            res[0].push({
+                text: "View community notes",
+                link: "/i/birdwatch/t/" + self.props.tweet.id_str
+            });
         });
     });
 });
