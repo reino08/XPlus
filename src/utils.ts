@@ -1,7 +1,7 @@
 import Logger from "./logger.ts";
 import { Link, React } from "./modules/react.ts";
 
-export function findInTree(current: any, prop: string, accessor: (x: any) => any, depth?: number, suppress?: boolean): any | undefined {
+export function findInTree(current: any, predicate: (x: any) => any, depth?: number, suppress?: boolean): any | undefined {
     // Walks up the react tree as long as there are elements and
     //   uses a passed function to check each element for a property.
     // The property is stored to the `value` variable each step
@@ -11,10 +11,10 @@ export function findInTree(current: any, prop: string, accessor: (x: any) => any
     //   results from the `userInfo` feature
 
     let value: any;
-    for (let i = 0; i < (depth || Infinity) && current?.return && !(value = accessor(current)); i++)
+    for (let i = 0; i < (depth || Infinity) && current?.return && !(value = predicate(current)); i++)
         current = current.return;
     if (!value)
-        return void (suppress || Logger.warn(`Failed to find \`${prop}\` in tree`));
+        return void (suppress || Logger.warn(`Failed to find prop in tree. Accessor:`, predicate));
     else return value;
 }
 

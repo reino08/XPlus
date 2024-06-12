@@ -81,7 +81,7 @@ function patchHandlePre(self, args, res) {
             if (res.args)
                 args = res.args;
         } catch (err) {
-            Logger.error("Exception occurred in pre patch:", err);
+            Logger.error("Exception occurred in pre patch:", err, "Patch list:", this.pre);
             delete this.pre[key];
         }
     }
@@ -94,7 +94,7 @@ function patchHandlePost(self, args, res) {
             if (Array.isArray(val) && val.length == 1)
                 res = val[0];
         } catch (err) {
-            Logger.error("Exception occurred in post patch:", err);
+            Logger.error("Exception occurred in post patch:", err, "Patch list:", this.post);
             delete this.post[key];
         }
     }

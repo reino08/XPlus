@@ -8,5 +8,5 @@ export const TweetUserPatch: Promise<Patch> = Webpack.getString(
 ).then(exports => new Patch(exports.Z.prototype, "render"));
 
 TweetUserPatch.then(patch => patch.subscribe(patch.post, self => {
-    self.props.tweet = findInTree(self._reactInternals, "tweet", (x: any) => x.stateNode?.props?.tweet);
+    self.props.tweet = findInTree(self._reactInternals, (x: any) => x.stateNode?.props?.tweet);
 }, Infinity));

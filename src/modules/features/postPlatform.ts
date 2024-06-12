@@ -3,7 +3,7 @@ import { findInTree } from "../../utils.ts";
 import { TweetUserPatch } from "../patches/tweetUser.ts";
 
 TweetUserPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
-    let tweet = findInTree(self._reactInternals, "tweet", (x: any) => x.stateNode?.props?.tweet);
+    let tweet = findInTree(self._reactInternals, (x: any) => x.stateNode?.props?.tweet);
     if (!tweet) return res;
 
     let platform = tweet.source_name
