@@ -1,10 +1,14 @@
+import Logger from "../../logger.ts";
 import { findInTree } from "../../utils.ts";
 import { TweetUserPatch } from "../patches/tweetUser.ts";
 import { UserCardPatch } from "../patches/userCard.ts";
 import { React } from "../react.ts";
 
 TweetUserPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
-    let user = self.props.tweet.retweeted_status?.user || self.props.tweet.user;
+    let tweet = self.props.tweet;
+    if (!tweet) return Logger.warn("Missing prop `tweet`", self);
+
+    let user = tweet.retweeted_status?.user || tweet.user;
     if (!user) return;
 
     let className = getClassName(user.following, user.followed_by);
