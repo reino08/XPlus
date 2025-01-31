@@ -12,13 +12,18 @@ import { filters } from "./ui/filters.tsx";
 import { React, ReactDOM } from "./modules/react.ts";
 
 // Expose some data to make development easier
-unsafeWindow["xp"] = {
-    symbols,
-    webpack: Webpack,
-    get React() { return React },
-    get ReactDOM() { return ReactDOM },
-    get filters() { return filters },
-};
+Object.defineProperty(unsafeWindow, Symbol.for("X+"), {
+    configurable: false,
+    enumerable: false,
+    writable: false,
+    value: {
+        symbols,
+        webpack: Webpack,
+        get React() { return React },
+        get ReactDOM() { return ReactDOM },
+        get filters() { return filters },
+    },
+});
 
 setTimeout(() => {
     // Sometimes the page does not fully load, so refresh after an amount of time
