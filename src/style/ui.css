@@ -79,3 +79,33 @@
     text-decoration: none;
     color: white;
 }
+
+#xp-ui-debug-tabs {
+    display: flex;
+    margin-bottom: 4px;
+}
+
+#xp-ui-debug-tabs>* {
+    flex: 1;
+    margin: 0 2px;
+    text-align: center;
+}
+
+#xp-ui-debug-externs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 4px;
+    column-gap: 4px;
+}
+
+#xp-ui-debug-externs span.loading {
+    color: cyan;
+}
+
+#xp-ui-debug-externs span.succeeded {
+    color: lime;
+}
+
+#xp-ui-debug-externs span.failed {
+    color: red;
+}

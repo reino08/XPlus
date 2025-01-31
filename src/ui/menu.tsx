@@ -1,12 +1,15 @@
 import { React } from "../modules/react.ts"
+
 import { Filters } from "./filters.tsx";
 import FollowList from "./followList.tsx";
 import ThemePicker from "./themePicker.tsx";
+import Debug from "./debug.tsx";
 
 let tabs: [string, Function][] = [
     ["Filters", Filters],
     ["Follow List", FollowList],
     ["Theme Picker", ThemePicker],
+    ["Debug", Debug],
 ]
 
 export default function Menu(props: any) {
