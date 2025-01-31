@@ -2,7 +2,7 @@ import { React } from "../modules/react.ts";
 import * as externs from "../modules/externs.ts";
 
 let tabs: [string, Function][] = [
-    ["Externs", Externs],
+    ["Externals", Externals],
 ]
 
 export default function Debug() {
@@ -27,7 +27,7 @@ enum State {
 }
 
 // This is written very poorly.
-function Externs() {
+function Externals() {
     let [states, setStates] = React.useState({});
 
     React.useEffect(() => {
@@ -42,7 +42,7 @@ function Externs() {
 
     return (<div id="xp-ui-debug-externs">
         {Object.entries(states).map(([key, state]) => (state = State[state as State], <div>
-            {key}:
+            {key}
             <br />
             <span className={(state as string).toLowerCase()}>
                 {state as string}

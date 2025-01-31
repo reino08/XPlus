@@ -1,9 +1,9 @@
 import Logger from "../../logger.ts";
 import { patchHalves } from "../../patch.ts";
+import { extern_VideoPlayer } from "../externs.ts";
 import { React } from "../react.ts";
-import Webpack from "../webpack.ts";
 
-Webpack.getString("_handleCopyVideoAddress", x => x?.Z?.prototype?.render).then(exports => {
+extern_VideoPlayer.then(exports => {
     patchHalves(exports.Z.prototype, "render", undefined, (self, _, res) => {
         if (!self.state.openContextMenu) return;
         patchHalves(res.props, "children", undefined, (_, __, res) => {

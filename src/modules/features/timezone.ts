@@ -1,8 +1,8 @@
-import Webpack from "../webpack.ts";
 import { patchHalves } from "../../patch.ts";
+import { extern_Timestamp } from "../externs.ts";
 
 // Regions that use DST switch which UTC offset they use.
-Webpack.getString("amountOfTime", x => x?.Z).then(exports => {
+extern_Timestamp.then(exports => {
     patchHalves(exports.Z.prototype, "render", undefined, (self, _, res) => {
         res.props.children[1].props.onClick = () => {
             let result = prompt("Enter observed time in hours:");

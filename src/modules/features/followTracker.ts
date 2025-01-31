@@ -1,6 +1,6 @@
 import Logger from "../../logger.ts";
-import Webpack from "../webpack.ts";
 import { patchHalves } from "../../patch.ts";
+import { extern_FollowButton } from "../externs.ts";
 
 export let list: string[] = [];
 export let callbacks: Function[] = [];
@@ -11,8 +11,8 @@ GM.getValue("xp-follow-list").then(value => {
     list = string.split("\n").filter(x => x.trim().length != 0);
 });
 
-Webpack.getString("isSuperFollowing", x => x?.Z?.prototype?.render).then(exports => {
-    patchHalves(exports.Z.prototype, "render", undefined, (self, _, res) => {
+extern_FollowButton.then(exports => {
+    patchHalves(exports.Z.prototype, "render", undefined, (_, __, res) => {
         let onFollow = res.props.onFollow,
             onUnfollow = res.props.onUnfollow;
 

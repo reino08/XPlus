@@ -1,6 +1,6 @@
-import Webpack from "../webpack.ts";
 import { React } from "../react.ts";
 import { patchHalves } from "../../patch.ts";
+import { extern_DraftJSEditor } from "../externs.ts";
 
 // https://util.unicode.org/UnicodeJsps/confusables.jsp
 const confusableMap = {
@@ -51,7 +51,7 @@ const ranges: [description: string, [start: number, end: number, codepoint: numb
     ["DS", [[0x61, 0x7A, 0x1D552], [0x41, 0x5A, 0x1D538, [2, 7, 13, 15, 16, 17, 25]]]],
 ];
 
-Webpack.getString("_handleEditorContainerRef", x => x?.prototype?.render).then(exports => {
+extern_DraftJSEditor.then(exports => {
     patchHalves(exports.prototype, "render", undefined, (self, _, res) => {
         res.props.children.unshift(<div className="xp-rich-text-editor" onMouseDown={e => e.preventDefault()}>
             <button onClick={() => replace(char => getOriginal(char))}>R</button>

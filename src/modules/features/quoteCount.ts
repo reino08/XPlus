@@ -1,8 +1,8 @@
-import Webpack from "../webpack.ts";
 import { makeLink } from "../../utils.ts";
 import { patchHalves } from "../../patch.ts";
+import { extern_ActionBar, extern_ActionBarParent } from "../externs.ts";
 
-Webpack.getString("_viewCountsPublicVisibilityEnabled", x => x?.__xp_module).then(exports => {
+extern_ActionBarParent.then(exports => {
     let obj = exports.Z.WrappedComponent.type.WrappedComponent.type;
     let original = obj.render;
     obj.render = function () {
@@ -24,7 +24,7 @@ Webpack.getString("_viewCountsPublicVisibilityEnabled", x => x?.__xp_module).the
     }
 });
 
-Webpack.getProps(x => x?.Z, "ActionLike").then(exports => {
+extern_ActionBar.then(exports => {
     patchHalves(exports, "Z", undefined, (_, [props], res) => {
         if (props.quoteCount + props.retweetCount == 0)
             return;

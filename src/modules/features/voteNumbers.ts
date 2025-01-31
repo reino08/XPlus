@@ -1,8 +1,8 @@
-import Webpack from "../webpack.ts";
 import { isProxy } from "../../symbols.ts";
 import { patchHalves } from "../../patch.ts";
+import { extern_Poll } from "../externs.ts";
 
-Webpack.get(exports => exports?.HWCard).then(exports => {
+extern_Poll.then(exports => {
     patchHalves(exports.HWCard.prototype, "render", self => {
         if (self.props.card.binding_values[isProxy]) return;
 
