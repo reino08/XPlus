@@ -11,13 +11,7 @@ TweetPatch.then(patch => patch.subscribe(patch.pre, (self, _, res) => {
     if (!self.filterReason) return;
 
     res.value = React.createElement("div", {
-        style: {
-            color: "#b8babd",
-            marginLeft: "4px",
-            fontFamily: "TwitterChirp",
-            fontSize: "15px",
-            alignSelf: "center",
-        },
+        className: "xp-filtered",
         onClick: () => (delete self.filterReason, self.forceUpdate()),
     }, `Filtered: ${self.filterReason}`);
 }))

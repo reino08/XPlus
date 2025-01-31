@@ -49,3 +49,11 @@
     font-size: 16px;
     vertical-align: bottom;
 }
+
+.xp-filtered {
+    color: #b8babd;
+    margin-left: 4px;
+    font-family: "TwitterChirp";
+    font-size: 15px;
+    align-self: center;
+}
