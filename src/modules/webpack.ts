@@ -39,7 +39,7 @@ export default class Webpack {
                 .map((x: any) => x.exports)
                 .filter(filter)
             if (result.length != 1) {
-                Logger.warn(`${result.length} results from string search: "${string}"`);
+                Logger.warn(`${result.length} results from string search: "${string}"`, result);
                 return Promise.reject(result.length);
             }
             return Promise.resolve(result[0]);
@@ -60,7 +60,7 @@ export default class Webpack {
                 .map((x: any) => x.exports)
                 .filter(filter)
             if (result.length != 1) {
-                Logger.warn(`${result.length} results from prop search: "${props}"`);
+                Logger.warn(`${result.length} results from prop search: "${props}"`, result);
                 return Promise.reject(result.length);
             }
             return Promise.resolve(result[0]);
