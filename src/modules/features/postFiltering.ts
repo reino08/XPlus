@@ -1,5 +1,5 @@
 import { React } from "../react.ts";
-import { filters } from "../../ui/filters.tsx";
+import { filters } from "../ui/filters.ts";
 import { TweetPatch } from "../patches/tweet.ts";
 
 TweetPatch.then(patch => patch.subscribe(patch.pre, (self, _, res) => {

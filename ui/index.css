@@ -1,0 +1,18 @@
+* {
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+.tab,
+button {
+    text-align: inherit;
+    background-color: #000;
+    color: White;
+    padding: 6px 12px;
+    border: solid 1px var(--xp-accent);
+    border-radius: 8px;
+}
+
+button:hover {
+    background-color: #222;
+}

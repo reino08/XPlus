@@ -1,0 +1,11 @@
+{ // For the linter. This file isn't used for compilation.
+    "compilerOptions": {
+        "types": ["@violentmonkey/types"],
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
+        "jsx": "preserve",
+        "lib": ["ES2015", "ES2017"],
+        "target": "ESNext",
+        "moduleResolution": "bundler",
+    }
+}

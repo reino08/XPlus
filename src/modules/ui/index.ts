@@ -1,9 +1,10 @@
-import Webpack from "../modules/webpack.ts";
-import Menu from "./menu.tsx";
-import { React, ReactDOM, Wait } from "../modules/react.ts";
-import { patchHalves } from "../patch.ts";
+import { ui_url } from "../../../config.json";
+import Webpack from "../webpack.ts";
+import { React } from "../react.ts";
+import { patchHalves } from "../../patch.ts";
+import { __setFrame, subscribe } from "./commands.ts";
 
-let element: HTMLDivElement;
+export let frame: HTMLIFrameElement;
 let button: any;
 
 Webpack.getString("showHasNewItemsIndicator", x => x?.ZP).then(exports => button = exports.ZP);
@@ -23,7 +24,7 @@ Webpack.getString("wideMode", x => x?.ZP).then(exports => {
                 rank: 0,
                 onClick(e: MouseEvent) {
                     e.preventDefault();
-                    element.style.display = "";
+                    frame.style.display = "";
                 },
                 renderIcon() {
                     return React.createElement("div", {
@@ -42,23 +43,15 @@ Webpack.getString("wideMode", x => x?.ZP).then(exports => {
     });
 });
 
-Wait.then(() => {
-    element = document.createElement("div");
-    element.id = "xp-ui-root";
-    element.style.display = "none";
-    document.body.appendChild(element);
 
-    let root = ReactDOM.createRoot(element);
-    root.render(React.createElement(Menu, {
-        hide: () => element.style.display = "none",
-    }));
+window.addEventListener("load", () => {
+    frame = GM_addElement(document.body, "iframe", {
+        id: "xp-ui-root",
+        src: ui_url
+    }) as HTMLIFrameElement;
 
-    document.addEventListener("keydown", e => {
-        if (e.key == "Escape" && element.style.display != "none") {
-            e.preventDefault();
-            e.stopPropagation(); // Maybe unneeded
-            element.style.display = "none";
-        }
-    });
-});
+    frame.style.display = "none";
+    __setFrame(frame);
 
+    subscribe("menu.hide", () => frame.style.display = "none");
+})

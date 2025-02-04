@@ -1,6 +1,5 @@
-// These imports are for side effects:
+// These imports are for side-effects:
 import "./style/index.css";
-import "./ui/index.ts"
 // This is the auto-load side-effects folder
 // @ts-ignore Not much can be done about this lint
 import "./modules/**/*.*";
@@ -8,7 +7,6 @@ import "./modules/**/*.*";
 // These imports for for being exposed:
 import * as symbols from "./symbols.ts";
 import Webpack from "./modules/webpack.ts";
-import { filters } from "./ui/filters.tsx";
 import { React, ReactDOM } from "./modules/react.ts";
 
 // Expose some data to make development easier
@@ -21,7 +19,6 @@ Object.defineProperty(unsafeWindow, Symbol.for("X+"), {
         webpack: Webpack,
         get React() { return React },
         get ReactDOM() { return ReactDOM },
-        get filters() { return filters },
     },
 });
 

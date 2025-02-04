@@ -1,19 +1,23 @@
 {
   "type": "module",
   "devDependencies": {
+    "@rollup/plugin-html": "^2.0.0",
     "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-swc": "^0.3.0",
     "@rollup/plugin-terser": "^0.4.4",
-    "@types/greasemonkey": "^4.0.7",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@violentmonkey/types": "^0.2.0",
     "rollup": "^4.17.2",
     "rollup-plugin-glob-import": "^0.5.0",
     "rollup-plugin-styler": "^1.8.0",
-    "rollup-plugin-userscript-metablock": "^0.3.3"
+    "rollup-plugin-svelte": "^7.2.2",
+    "rollup-plugin-userscript-metablock": "^0.3.3",
+    "svelte": "^5.19.6"
   },
   "scripts": {
     "build": "rollup -wc",
-    "serve": "npx serve -n"
+    "serve": "powershell ./build/serve.ps1"
   }
 }
