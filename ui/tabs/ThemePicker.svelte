@@ -1,7 +1,7 @@
 <script>
-  import { readChannel, send } from "../commands.ts";
+  import { channelOnce, send } from "../commands.ts";
 
-  const data = readChannel(
+  const data = channelOnce(
     "theme_picker.data.get",
     "tab.theme_picker.data.set"
   ).then(([colors]) => mapColors(colors));

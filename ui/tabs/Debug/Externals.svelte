@@ -1,7 +1,7 @@
 <script>
-  import { readChannel } from "../../commands.ts";
+  import { channelOnce } from "../../commands.ts";
 
-  const data = readChannel("debug.externs.get", "debug.externs.set").then(
+  const data = channelOnce("debug.externs.get", "debug.externs.set").then(
     ([data]) => Object.entries(data)
   );
 </script>

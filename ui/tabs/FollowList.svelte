@@ -1,12 +1,7 @@
 <script>
-  import { onMount } from "svelte";
-  import { send, subscribe } from "../commands.ts";
+  import { channel, send } from "../commands.ts";
 
-  onMount(() => send("follow_list.get"));
-
-  subscribe("follow_list.set", (data) => {
-    list = data;
-  });
+  channel("follow_list.get", "follow_list.set", (data) => (list = data));
 
   let list = $state(undefined);
 </script>

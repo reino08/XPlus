@@ -4,6 +4,8 @@ export const extern_React = Webpack.getProps(x => x, "createElement")
 export const extern_ReactDOM = Webpack.getProps(x => x, "createRoot")
 export const extern_Link = Webpack.getString("link", x => x?.e)
 
+export const extern_UserData = Webpack.getString("Bearer", x => x?.__xp_module);
+
 export const extern_Tweet = Webpack.getString("tweet:e.tweet", x => x?.ZP?.render);
 export const extern_TweetUser = Webpack.getString("_getUserScreenNameNode", x => x?.Z);
 export const extern_UserCard = Webpack.getString("_useUserHoverCardWrapper", x => x?.Z?.prototype?.render);

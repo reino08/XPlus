@@ -1,5 +1,5 @@
 <script>
-  import { readChannel, send, subscribe } from "../commands.ts";
+  import { channelOnce, send, subscribe } from "../commands.ts";
 
   const initial = `# Start a line with a hashtag to have it ignored as a comment
 # Press \`Recompile\` when all changes are done to apply them
@@ -14,7 +14,7 @@
   let value = $state(null);
   let errCount = $state(0);
 
-  const data = readChannel("filters.get", "filters.set").then(
+  const data = channelOnce("filters.get", "filters.set").then(
     ([data]) => (value = data || initial)
   );
 
@@ -49,11 +49,8 @@
     width: 100%;
     box-sizing: border-box;
     padding: 8px;
-    border-radius: 16px;
     white-space: nowrap;
     resize: none;
     margin: 8px 0;
-    background-color: #111;
-    color: White;
   }
 </style>

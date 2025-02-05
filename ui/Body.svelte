@@ -5,6 +5,7 @@
   import Filters from "./tabs/Filters.svelte";
   import FollowList from "./tabs/FollowList.svelte";
   import ThemePicker from "./tabs/ThemePicker.svelte";
+  import Tracker from "./tabs/Tracker.svelte";
   import Debug from "./tabs/Debug.svelte";
 
   let selected = $state(-1);
@@ -12,6 +13,7 @@
     ["Filters", Filters],
     ["Follow List", FollowList],
     ["Theme Picker", ThemePicker],
+    ["Tracker", Tracker],
     ["Debug", Debug],
   ];
 

@@ -18,11 +18,12 @@ window.addEventListener("message", event => {
         listener(command, data);
 });
 
-export function subscribe(command: string, callback: (...data: any[]) => void) {
+export function subscribe(command: string, callback: (...data: any[]) => void, once = false) {
     onMount(() => {
         const listener = (target: string, data: any) => {
             if (target != command) return;
 
+            if (once) listeners.delete(listener);
             callback(...data);
         };
 
@@ -31,7 +32,7 @@ export function subscribe(command: string, callback: (...data: any[]) => void) {
     });
 }
 
-export function readChannel(src: string, dest: string): Promise<any[]> {
+export function channelOnce(src: string, dest: string): Promise<any[]> {
     return new Promise(res => {
         const listener = (target: string, data: any) => {
             if (target != dest) return;
@@ -43,4 +44,9 @@ export function readChannel(src: string, dest: string): Promise<any[]> {
         listeners.add(listener);
         send(src);
     });
+}
+
+export function channel(src: string, dest: string, callback: (...data: any[]) => void) {
+    subscribe(dest, callback);
+    onMount(() => send(src));
 }

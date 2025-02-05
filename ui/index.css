@@ -16,3 +16,10 @@ button {
 button:hover {
     background-color: #222;
 }
+
+input,
+textarea {
+    border-radius: 16px;
+    background-color: #111;
+    color: White;
+}

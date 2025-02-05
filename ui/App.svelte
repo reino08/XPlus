@@ -1,10 +1,9 @@
 <script>
-  import { send, subscribe } from "./commands.ts";
+  import { channel } from "./commands.ts";
   import Body from "./Body.svelte";
-  import { onMount } from "svelte";
 
-  onMount(() => send("theme.set"));
-  subscribe(
+  channel(
+    "theme.get",
     "theme.set",
     (color) =>
       color && document.documentElement.style.setProperty("--xp-accent", color)
