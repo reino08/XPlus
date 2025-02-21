@@ -2,6 +2,8 @@
 
 Twitter/X userscript
 
+This does not work in Firefox and its derivatives. Use a Chromium-based browser such as Brave instead.
+
 # Install
 
 1. Install one userscript manager extension
