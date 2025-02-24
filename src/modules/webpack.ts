@@ -31,7 +31,11 @@ export default class Webpack {
     static getString(string: string, accessor: Function): Promise<any> {
         let filter = x => {
             const prop = accessor(x);
-            return prop?.toString == String.toString && prop.toString().includes(string);
+            return prop?.toString ==
+                (typeof prop == "string"
+                    ? String.prototype.toString
+                    : String.toString)
+                && prop.toString().includes(string);
         }
 
         if (Webpack.loader?.c) {
