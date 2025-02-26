@@ -31,9 +31,9 @@ export function patchHalves(object: any, prop: PropertyKey, before?: Prepatch, a
             let res: NewResult = {};
             before(self, args, res);
 
-            if (res.value)
+            if (res.value !== undefined)
                 return res.value;
-            if (res.args)
+            if (res.args !== undefined)
                 args = res.args;
         }
 

@@ -19,3 +19,5 @@ export const extern_Timestamp = Webpack.getString("amountOfTime", x => x?.Z);
 export const extern_VideoPlayer = Webpack.getString("_handleCopyVideoAddress", x => x?.Z?.prototype?.render);
 export const extern_Poll = Webpack.get(exports => exports?.HWCard);
 export const extern_ContextMenu = Webpack.getProps(x => x?.default?.WrappedComponent?.type?.WrappedComponent?.type?.render?.()?.props?.wrappedComponent?.WrappedComponent?.prototype, "_shouldIncludeTweetAppealOption");
+export const extern_Sidebar = Webpack.getString("wideMode", x => x?.ZP);
+export const extern_SidebarButton = Webpack.getString("showHasNewItemsIndicator", x => x?.ZP);
