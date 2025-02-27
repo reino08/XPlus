@@ -18,10 +18,11 @@ registerAddon(async (xp) => {
     const [Filter1a, Filter1b] = await filter1;
     const [Filter2a, Filter2b] = await filter2;
 
-    function into(tweet: any): [any, any] | undefined {
-        if (!tweet?.user) return [null, null];
+    function into(tweet: any): [any, any] {
+        let user = tweet?.retweeted_status?.user || tweet?.user;
+        if (!user) return [null, null];
 
-        const query = "twitter.com/" + tweet.user.screen_name.toLowerCase();
+        const query = "twitter.com/" + user.screen_name.toLowerCase();
         return [
             (Filter1a.test(query) || Filter1b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter1", }) : null,
             (Filter2a.test(query) || Filter2b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter2" }) : null,
