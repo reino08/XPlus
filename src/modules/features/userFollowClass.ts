@@ -32,7 +32,7 @@ UserCardPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
 function getClassName(following: boolean, followed: boolean): string | undefined {
     if (!following && !followed) return;
 
-    return "xp-user-" +
+    return "xp-tag xp-user-" +
         ((following && followed)
             ? "mutual"
             : following

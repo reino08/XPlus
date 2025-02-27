@@ -59,3 +59,7 @@
     height: 100%;
     backdrop-filter: blur(6px);
 }
+
+.xp-tag {
+    display: none;
+}

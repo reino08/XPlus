@@ -25,8 +25,8 @@ registerAddon(async (xp) => {
         const query = "twitter.com/" + user.screen_name.toLowerCase();
         const append = quote ? "-quote" : "";
         return [
-            (Filter1a.test(query) || Filter1b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter1" + append, }) : null,
-            (Filter2a.test(query) || Filter2b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter2" + append }) : null,
+            (Filter1a.test(query) || Filter1b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-tag xp-userlists-filter1" + append, }) : null,
+            (Filter2a.test(query) || Filter2b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-tag xp-userlists-filter2" + append }) : null,
         ];
     }
 
