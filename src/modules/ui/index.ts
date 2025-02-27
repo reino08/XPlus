@@ -2,7 +2,7 @@ import { ui_url } from "../../../config.json";
 import { React } from "../react.ts";
 import { __setFrame, subscribe } from "./commands.ts";
 import { extern_SidebarButton } from "../externs.ts";
-import { SidebarPatch } from "../patches/sidebar.ts";
+import { SidebarPatch } from "../patches.ts";
 
 export let frame: HTMLIFrameElement;
 let button: any;

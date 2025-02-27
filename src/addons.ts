@@ -1,7 +1,7 @@
 // These imports for for being exposed:
 import * as symbols from "./symbols.ts";
 import * as externs from "./modules/externs.ts";
-import * as patches from "./modules/patches/index.ts";
+import * as patches from "./modules/patches.ts";
 import Logger from "./logger.ts";
 import Webpack from "./modules/webpack.ts";
 import { React, ReactDOM } from "./modules/react.ts";

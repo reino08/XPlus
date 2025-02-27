@@ -18,20 +18,27 @@ registerAddon(async (xp) => {
     const [Filter1a, Filter1b] = await filter1;
     const [Filter2a, Filter2b] = await filter2;
 
+    function into(tweet: any): [any, any] | undefined {
+        if (!tweet?.user) return [null, null];
+
+        const query = "twitter.com/" + tweet.user.screen_name.toLowerCase();
+        return [
+            (Filter1a.test(query) || Filter1b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter1", }) : null,
+            (Filter2a.test(query) || Filter2b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter2" }) : null,
+        ];
+    }
+
+    xp.patches.QuotedPostPatch.then(patch => patch.subscribe(patch.post, (_, [props], res) => {
+        return [[
+            ...into(props.tweet),
+            ...xp.React.Children.toArray(res),
+        ] as any];
+    }, -50));
+
     xp.patches.TweetUserPatch.then((patch) =>
         patch.subscribe(patch.post, (self, _, res) => {
-            let tweet = self.props.tweet;
-            if (!tweet?.user) return;
-
-            const query = "twitter.com/" + tweet.user.screen_name.toLowerCase();
-            const hit1 = Filter1a.test(query) || Filter1b.test(query + "|1");
-            const hit2 = Filter2a.test(query) || Filter2b.test(query + "|1");
-
-            if (!hit1 && !hit2) return;
-
             res.props.children = [
-                hit1 ? xp.React.createElement("span", { className: "xp-userlists-filter1", }) : null,
-                hit2 ? xp.React.createElement("span", { className: "xp-userlists-filter2" }) : null,
+                ...into(self.props.tweet),
                 ...xp.React.Children.toArray(res.props.children),
             ];
         }, -200)

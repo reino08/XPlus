@@ -1,6 +1,6 @@
 import { React } from "../react.ts";
 import { findInTree, makeLink } from "../../utils.ts";
-import { UserCardPatch } from "../patches/userCard.ts";
+import { UserCardPatch } from "../patches.ts";
 
 UserCardPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
     let user = findInTree(self._reactInternals, (x: any) => x.pendingProps.user, 25, true);

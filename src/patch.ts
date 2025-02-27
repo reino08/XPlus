@@ -50,7 +50,7 @@ export function patchHalves(object: any, prop: PropertyKey, before?: Prepatch, a
 }
 
 export class Patch {
-    pre: Postpatch[] = [];
+    pre: Prepatch[] = [];
     post: Postpatch[] = [];
 
     constructor(object: any, prop: PropertyKey) {
@@ -98,4 +98,6 @@ function patchHandlePost(self, args, res) {
             delete this.post[key];
         }
     }
+
+    return [res];
 }

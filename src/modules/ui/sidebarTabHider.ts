@@ -1,6 +1,6 @@
 import Logger from "../../logger.ts";
 import { patchHalves } from "../../patch.ts";
-import { SidebarPatch } from "../patches/sidebar.ts";
+import { SidebarPatch } from "../patches.ts";
 import { React } from "../react.ts";
 import { send, subscribe } from "./commands.ts";
 

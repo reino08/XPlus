@@ -1,6 +1,6 @@
 import { React } from "../react.ts";
 import { findInTree, makeLink } from "../../utils.ts";
-import { TweetUserPatch } from "../patches/tweetUser.ts";
+import { TweetUserPatch } from "../patches.ts";
 
 TweetUserPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
     let tweet = findInTree(self._reactInternals, (x: any) => x.stateNode?.props?.tweet);

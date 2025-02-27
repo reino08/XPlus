@@ -1,6 +1,6 @@
 import { React } from "../react.ts";
 import { filters } from "../ui/filters.ts";
-import { TweetPatch } from "../patches/tweet.ts";
+import { TweetPatch } from "../patches.ts";
 
 TweetPatch.then(patch => patch.subscribe(patch.pre, (self, _, res) => {
     if (!self.filterChecked) {

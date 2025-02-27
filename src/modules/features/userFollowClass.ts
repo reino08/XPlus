@@ -1,7 +1,6 @@
 import Logger from "../../logger.ts";
 import { findInTree } from "../../utils.ts";
-import { TweetUserPatch } from "../patches/tweetUser.ts";
-import { UserCardPatch } from "../patches/userCard.ts";
+import { TweetUserPatch, UserCardPatch } from "../patches.ts";
 import { React } from "../react.ts";
 
 TweetUserPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
