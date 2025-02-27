@@ -1,9 +1,9 @@
 /* Highlights top level and quoted post if the top level post is filtered */
-article:has(.xp-userlists-filter1):not(:has(.xp-quoted-post + .xp-userlists-filter1)) {
+article:has(.xp-userlists-filter1) {
     background-color: #ff000040;
 }
 
-article:has(.xp-userlists-filter2):not(:has(.xp-quoted-post + .xp-userlists-filter2)) {
+article:has(.xp-userlists-filter2) {
     background: linear-gradient(#5ca0d240 0% 12.5%,
             #9ed3df40 12.5% 25%,
             #f4f49340 25% 37.5%,
@@ -14,11 +14,11 @@ article:has(.xp-userlists-filter2):not(:has(.xp-quoted-post + .xp-userlists-filt
 }
 
 /* Highlights quoted post if the quoted post is filtered */
-.xp-quoted-post+.xp-userlists-filter1+*>* {
+.xp-quoted-post+*:has(.xp-userlists-filter1-quote)>* {
     background-color: #ff000040;
 }
 
-.xp-quoted-post+.xp-userlists-filter2+*>* {
+.xp-quoted-post+*:has(.xp-userlists-filter2-quote)>* {
     background: linear-gradient(#5ca0d240 0% 12.5%,
             #9ed3df40 12.5% 25%,
             #f4f49340 25% 37.5%,
@@ -29,10 +29,6 @@ article:has(.xp-userlists-filter2):not(:has(.xp-quoted-post + .xp-userlists-filt
 }
 
 /* Unhighlights quoted post if the quoted post is unfiltered */
-.xp-quoted-post+ :not(.xp-userlists-filter1)>* {
-    background-color: black;
-}
-
-.xp-quoted-post+ :not(.xp-userlists-filter2)>* {
+.xp-quoted-post+ :not(:has(.xp-userlists-filter1-quote, .xp-userlists-filter2-quote))>* {
     background-color: black;
 }

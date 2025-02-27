@@ -18,28 +18,22 @@ registerAddon(async (xp) => {
     const [Filter1a, Filter1b] = await filter1;
     const [Filter2a, Filter2b] = await filter2;
 
-    function into(tweet: any): [any, any] {
+    function into(tweet: any, quote: boolean): [any, any] {
         let user = tweet?.retweeted_status?.user || tweet?.user;
         if (!user) return [null, null];
 
         const query = "twitter.com/" + user.screen_name.toLowerCase();
+        const append = quote ? "-quote" : "";
         return [
-            (Filter1a.test(query) || Filter1b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter1", }) : null,
-            (Filter2a.test(query) || Filter2b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter2" }) : null,
+            (Filter1a.test(query) || Filter1b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter1" + append, }) : null,
+            (Filter2a.test(query) || Filter2b.test(query + "|1")) ? xp.React.createElement("span", { className: "xp-userlists-filter2" + append }) : null,
         ];
     }
-
-    xp.patches.QuotedPostPatch.then(patch => patch.subscribe(patch.post, (_, [props], res) => {
-        return [[
-            ...into(props.tweet),
-            ...xp.React.Children.toArray(res),
-        ] as any];
-    }, -50));
 
     xp.patches.TweetUserPatch.then((patch) =>
         patch.subscribe(patch.post, (self, _, res) => {
             res.props.children = [
-                ...into(self.props.tweet),
+                ...into(self.props.tweet, !self.props.id),
                 ...xp.React.Children.toArray(res.props.children),
             ];
         }, -200)
