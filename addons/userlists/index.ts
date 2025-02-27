@@ -21,12 +21,9 @@ registerAddon(async (xp) => {
     xp.patches.TweetUserPatch.then((patch) =>
         patch.subscribe(patch.post, (self, _, res) => {
             let tweet = self.props.tweet;
-            if (!tweet) return xp.Logger.warn("Missing prop `tweet`", self);
+            if (!tweet?.user) return;
 
-            let user = tweet.retweeted_status?.user || tweet.user;
-            if (!user) return;
-
-            const query = "twitter.com/" + user.screen_name.toLowerCase();
+            const query = "twitter.com/" + tweet.user.screen_name.toLowerCase();
             const hit1 = Filter1a.test(query) || Filter1b.test(query + "|1");
             const hit2 = Filter2a.test(query) || Filter2b.test(query + "|1");
 
