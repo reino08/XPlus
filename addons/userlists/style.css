@@ -1,0 +1,13 @@
+*:has(>article .xp-userlists-filter1) {
+    outline: solid 2px #600;
+}
+
+*:has(>article .xp-userlists-filter2) {
+    background: linear-gradient(#5ca0d240 0% 12.5%,
+            #9ed3df40 12.5% 25%,
+            #f4f49340 25% 37.5%,
+            #ffffff40 37.5% 62.5%,
+            #f4f49340 62.5% 75%,
+            #ffb8c540 75% 87.5%,
+            #cc5d7e40 87.5% 100%);
+}

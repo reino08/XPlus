@@ -4,23 +4,10 @@ import "./style/index.css";
 // @ts-ignore Not much can be done about this lint
 import "./modules/**/*.*";
 
-// These imports for for being exposed:
-import * as symbols from "./symbols.ts";
-import Webpack from "./modules/webpack.ts";
-import { React, ReactDOM } from "./modules/react.ts";
-
-// Expose some data to make development easier
-Object.defineProperty(unsafeWindow, Symbol.for("X+"), {
-    configurable: false,
-    enumerable: false,
-    writable: false,
-    value: {
-        symbols,
-        webpack: Webpack,
-        get React() { return React },
-        get ReactDOM() { return ReactDOM },
-    },
-});
+// Allows external scripts to access internal data.
+// Addons interact with this through their core.ts file
+import "./addons.ts";
+export type { XP } from "./addons.ts";
 
 setTimeout(() => {
     // Sometimes the page does not fully load, so refresh after an amount of time

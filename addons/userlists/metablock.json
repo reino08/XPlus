@@ -1,0 +1,15 @@
+{
+  "name": "X+ User Lists",
+  "namespace": "X+",
+  "match": [
+    "*://twitter.com/*",
+    "*://x.com/*"
+  ],
+  "run-at": "document-start",
+  "homepageURL": "https://github.com/reino08/XPlus",
+  "downloadURL": "https://reino08.github.io/XPlus/X+.userlists.user.js",
+  "grant": [
+    "GM.xmlHttpRequest",
+    "unsafeWindow"
+  ]
+}

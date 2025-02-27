@@ -1,10 +1,10 @@
 # X+
 
-Twitter/X userscript
+Twitter/X Userscript
 
-This does not work in Firefox and its derivatives. Use a Chromium-based browser such as Brave instead.
+This does not work in Firefox and its derivatives. Use a Chromium-based browser such as [Brave](https://brave.com) instead.
 
-# Install
+# Installation
 
 1. Install one userscript manager extension
     - [ViolentMonkey](https://violentmonkey.github.io/get-it/) (Preferred)

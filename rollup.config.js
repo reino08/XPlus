@@ -7,6 +7,7 @@ import terser from "@rollup/plugin-terser";
 import svelte from "rollup-plugin-svelte";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import html from "@rollup/plugin-html";
+import { readdir } from "fs/promises";
 
 const swcOpts = {
   swc: {
@@ -28,9 +29,7 @@ export default [
       file: "public/X+.user.js",
     },
     plugins: [
-      globImport({
-        format: "import",
-      }),
+      globImport({ format: "import" }),
       resolveJsonModule(),
       styles({ minimize: true }),
       swc(swcOpts),
@@ -40,9 +39,7 @@ export default [
   },
   {
     input: "ui/index.ts",
-    output: {
-      file: "public/index.js",
-    },
+    output: { file: "public/index.js" },
     plugins: [
       svelte({
         extensions: [".svelte"],
@@ -65,4 +62,20 @@ export default [
       handler(warning);
     },
   },
-];
+].concat(
+  // Compile addons
+  (await readdir("addons", { withFileTypes: true }))
+    .filter((dir) => dir.isDirectory())
+    .map((dir) => ({
+      input: `./addons/${dir.name}/index.ts`,
+      output: { file: `public/X+.${dir.name}.user.js` },
+      plugins: [
+        globImport({ format: "import" }),
+        resolveJsonModule(),
+        styles({ minimize: true }),
+        swc(swcOpts),
+        terser(),
+        metablock({ file: `./addons/${dir.name}/metablock.json` }),
+      ],
+    }))
+);
