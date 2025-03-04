@@ -14,6 +14,7 @@
   "downloadURL": "https://reino08.github.io/XPlus/X+.user.js",
   "grant": [
     "GM.getValue",
+    "GM_getValue",
     "GM.setValue",
     "GM_addElement",
     "unsafeWindow"

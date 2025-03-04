@@ -1,32 +1,28 @@
-import Logger from "../../logger.ts";
 import { patchHalves } from "../../patch.ts";
+import { settings } from "../../settings.ts";
 import { SidebarPatch } from "../patches.ts";
 import { React } from "../react.ts";
 import { send, subscribe } from "./commands.ts";
 
 let hidden: string[] = [];
 
-function save() {
-    GM.setValue("xp-hidden-tabs", hidden.join("\n"));
-}
-
 function notify() {
     send("hidden_tabs.set", hidden.join("\n"));
 }
 
-function apply(value: string) {
+function apply(value: string | string[]) {
+    if (Array.isArray(value))
+        return void (hidden = value);
+
     hidden = value.split("\n").map(x => x.trim()).filter(x => x);
 }
 
-GM.getValue("xp-hidden-tabs").then(value => {
-    let list = (value as string | undefined);
-    if (list) apply(list);
+apply(settings.hidden_tabs)
 
-    subscribe("hidden_tabs.get", notify);
-    subscribe("hidden_tabs.set", value => {
-        apply(value);
-        save();
-    });
+subscribe("hidden_tabs.get", notify);
+subscribe("hidden_tabs.set", value => {
+    apply(value);
+    settings.hidden_tabs = hidden;
 });
 
 SidebarPatch.then(patch => patch.subscribe(patch.post, (_, __, res) => {
@@ -46,7 +42,7 @@ function Hideable({ child }) {
             if (child.props["aria-label"] == "Open X+ Menu") return;
 
             hidden.push(child.props.label);
-            save();
+            settings.hidden_tabs = hidden;
             notify();
             update();
         }

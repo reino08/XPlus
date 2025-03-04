@@ -1,19 +1,12 @@
 import { extern_UserData } from "../externs.ts";
 import { send, subscribe } from "./commands.ts";
 import { GraphQL } from "../../../config.json";
+import { settings } from "../../settings.ts";
 
 const API_BASE = "https://x.com/i/api/graphql/";
 
-let trackers: string[] | undefined;
-
-GM.getValue("xp-trackers").then((value) => {
-    trackers = (value as string[] | undefined) || [];
-    subscribe("trackers.get", () => send("trackers.set", trackers));
-});
-
-subscribe("trackers.set", (value) =>
-    GM.setValue("xp-trackers", (trackers = value))
-);
+subscribe("trackers.get", () => send("trackers.set", settings.trackers));
+subscribe("trackers.set", (value) => settings.trackers = value);
 
 extern_UserData.then((exports) => {
     const auth = (

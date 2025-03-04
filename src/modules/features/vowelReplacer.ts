@@ -2,23 +2,11 @@ import { React } from "../react.ts";
 import { DraftJSEditorPatch } from "../patches.ts";
 import { patchHalves } from "../../patch.ts";
 import { confusableMap } from "./richText.tsx";
-
-let enabled = false;
-
-GM.getValue("xp-draftjs-vowel-replacer").then(value => {
-    const val = value as boolean | undefined;
-    if (val === undefined) return;
-    enabled = !!val;
-});
-
-function set(state: boolean) {
-    enabled = state;
-    GM.setValue("xp-draftjs-vowel-replacer", state);
-}
+import { settings } from "../../settings.ts";
 
 DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) => {
     patchHalves(self, "update", (_, [state]) => {
-        if (!enabled) return;
+        if (!settings.draftjs_vowel_replacer) return;
 
         let blockMap = state._immutable.currentContent.blockMap;
         const iter = blockMap.entries();
@@ -35,6 +23,6 @@ DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) =>
 
     res.props.children.unshift(React.createElement("div", { className: "xp-draftjs-vowel-replacer", title: "Automatically replaces vowels with confusables to bypass word filters." },
         React.createElement("label", null, "Bypass"),
-        React.createElement("input", { type: "checkbox", defaultChecked: enabled, onChange: e => set(e.currentTarget.checked) }),
+        React.createElement("input", { type: "checkbox", defaultChecked: settings.draftjs_vowel_replacer, onChange: e => settings.draftjs_vowel_replacer = e.currentTarget.checked }),
     ));
 }, -200));
