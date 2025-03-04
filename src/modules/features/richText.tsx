@@ -1,9 +1,8 @@
 import { React } from "../react.ts";
-import { patchHalves } from "../../patch.ts";
-import { extern_DraftJSEditor } from "../externs.ts";
+import { DraftJSEditorPatch } from "../patches.ts";
 
 // https://util.unicode.org/UnicodeJsps/confusables.jsp
-const confusableMap = {
+export const confusableMap = {
     a: "\u0430", A: "\u0410",
     b: "\u15af", B: "\u0392",
     c: "\u0441", C: "\u03f9",
@@ -42,7 +41,8 @@ const unconfusableMap = Object.entries(confusableMap).reduce((x, [key, value]) =
 // Next, the base codepoint is added to move them into another range
 //  so 0x06 gets added to 0x1D552 to make 0x1D558, which is `Double-Struck Small G`
 // This process can be reversed to go back to regular ASCII letters.
-// There is an exclude component to one of the ranges because some double-struck capital letters do not exist.
+// There is an exclude component to one of the ranges because some mathematical double-struck capital letters do not exist.
+//  Instead they exist as regular double-struck capital letters, making them non-contiguous, thus requiring another map.
 // The bypass map could not have used this process as it is not contiguous. The letters were manually chosen.
 const ranges: [description: string, [start: number, end: number, codepoint: number, exclude?: number[]][]][] = [
     ["B", [[0x61, 0x7A, 0x1D41A], [0x41, 0x5A, 0x1D400]]],
@@ -51,70 +51,68 @@ const ranges: [description: string, [start: number, end: number, codepoint: numb
     ["DS", [[0x61, 0x7A, 0x1D552], [0x41, 0x5A, 0x1D538, [2, 7, 13, 15, 16, 17, 25]]]],
 ];
 
-extern_DraftJSEditor.then(exports => {
-    patchHalves(exports.prototype, "render", undefined, (self, _, res) => {
-        res.props.children.unshift(<div className="xp-rich-text-editor" onMouseDown={e => e.preventDefault()}>
-            <button onClick={() => replace(char => getOriginal(char))}>R</button>
-            <button onClick={() => replaceMap(confusableMap)}>C</button>
-            {ranges.map(([desc, ranges]) => <button onClick={() => replaceRange(ranges)}>{desc}</button>)}
-        </div>);
+DraftJSEditorPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
+    res.props.children.unshift(<div className="xp-rich-text-editor" onMouseDown={e => e.preventDefault()}>
+        <button onClick={() => replace(char => getOriginal(char))}>R</button>
+        <button onClick={() => replaceMap(confusableMap)}>C</button>
+        {ranges.map(([desc, ranges]) => <button onClick={() => replaceRange(ranges)}>{desc}</button>)}
+    </div>);
 
-        // TODO: support cross-element selections
-        function getSelection(): string {
-            let selection = self.props.editorState.getSelection();
-            let start = selection.getStartOffset();
-            let end = selection.getEndOffset();
+    // TODO: support cross-element selections
+    function getSelection(): string {
+        let selection = self.props.editorState.getSelection();
+        let start = selection.getStartOffset();
+        let end = selection.getEndOffset();
 
-            let text = self.props.editorState.getCurrentContent().getBlockForKey(selection.getAnchorKey()).getText();
-            if (start == end) return "";
+        let text = self.props.editorState.getCurrentContent().getBlockForKey(selection.getAnchorKey()).getText();
+        if (start == end) return "";
 
-            return text.slice(start, end);
+        return text.slice(start, end);
+    }
+
+    function getOriginal(char: string): string {
+        let original: string | undefined;
+        if (original = unconfusableMap[char])
+            return original;
+
+        let codepoint = char.codePointAt(0);
+        if (!codepoint) return char;
+
+        for (let range of ranges) {
+            for (let [start, end, base] of range[1]) {
+                if (codepoint >= base && codepoint <= base + end - start)
+                    return String.fromCodePoint(codepoint - base + start);
+            }
         }
 
-        function getOriginal(char: string): string {
-            let original: string | undefined;
-            if (original = unconfusableMap[char])
-                return original;
+        return char;
+    }
 
-            let codepoint = char.codePointAt(0);
+    function replace(map: (value: string) => string) {
+        self.props.handlePastedText(
+            Array.from(getSelection()).map(map).join(""), "", self.props.editorState
+        );
+    }
+
+    function replaceMap(map: {}) {
+        replace(char => {
+            let original = getOriginal(char);
+            return map[original] || original;
+        });
+    }
+
+    function replaceRange(ranges: [start: number, end: number, codepoint: number, exclude?: number[]][]) {
+        replace(char => {
+            let codepoint = getOriginal(char).codePointAt(0);
             if (!codepoint) return char;
 
-            for (let range of ranges) {
-                for (let [start, end, base] of range[1]) {
-                    if (codepoint >= base && codepoint <= base + end - start)
-                        return String.fromCodePoint(codepoint - base + start);
-                }
+            for (let [start, end, base, exclude] of ranges) {
+                if (codepoint < start || codepoint > end) continue;
+                if (exclude && exclude.includes(codepoint - start)) continue;
+                return String.fromCodePoint(codepoint + base - start);
             }
 
             return char;
-        }
-
-        function replace(map: (value: string) => string) {
-            self.props.handlePastedText(
-                Array.from(getSelection()).map(map).join(""), "", self.props.editorState
-            );
-        }
-
-        function replaceMap(map: {}) {
-            replace(char => {
-                let original = getOriginal(char);
-                return map[original] || original;
-            });
-        }
-
-        function replaceRange(ranges: [start: number, end: number, codepoint: number, exclude?: number[]][]) {
-            replace(char => {
-                let codepoint = getOriginal(char).codePointAt(0);
-                if (!codepoint) return char;
-
-                for (let [start, end, base, exclude] of ranges) {
-                    if (codepoint < start || codepoint > end) continue;
-                    if (exclude && exclude.includes(codepoint - start)) continue;
-                    return String.fromCodePoint(codepoint + base - start);
-                }
-
-                return char;
-            });
-        }
-    });
-});
+        });
+    }
+}, -100));

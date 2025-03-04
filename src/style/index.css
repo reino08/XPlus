@@ -63,3 +63,11 @@
 .xp-tag {
     display: none;
 }
+
+.xp-draftjs-vowel-replacer {
+    float: right;
+}
+
+.xp-draftjs-vowel-replacer label {
+    color: gray
+}
