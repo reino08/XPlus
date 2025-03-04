@@ -5,6 +5,17 @@ import { confusableMap } from "./richText.tsx";
 
 let enabled = false;
 
+GM.getValue("xp-draftjs-vowel-replacer").then(value => {
+    const val = value as boolean | undefined;
+    if (val === undefined) return;
+    enabled = !!val;
+});
+
+function set(state: boolean) {
+    enabled = state;
+    GM.setValue("xp-draftjs-vowel-replacer", state);
+}
+
 DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) => {
     patchHalves(self, "update", (_, [state]) => {
         if (!enabled) return;
@@ -24,6 +35,6 @@ DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) =>
 
     res.props.children.unshift(React.createElement("div", { className: "xp-draftjs-vowel-replacer", title: "Automatically replaces vowels with confusables to bypass word filters." },
         React.createElement("label", null, "Bypass"),
-        React.createElement("input", { type: "checkbox", value: enabled, onChange: e => enabled = e.currentTarget.checked }),
+        React.createElement("input", { type: "checkbox", defaultChecked: enabled, onChange: e => set(e.currentTarget.checked) }),
     ));
 }, -200));
