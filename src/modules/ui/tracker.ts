@@ -1,52 +1,22 @@
-import { extern_UserData } from "../externs.ts";
+import { extern_APIFetchUser, extern_APIFollowing } from "../externs.ts";
 import { send, subscribe } from "./commands.ts";
-import { GraphQL } from "../../../config.json";
 import { settings } from "../../settings.ts";
-
-const API_BASE = "https://x.com/i/api/graphql/";
+import { API } from "../api.ts";
 
 subscribe("trackers.get", () => send("trackers.set", settings.trackers));
 subscribe("trackers.set", (value) => settings.trackers = value);
 
-extern_UserData.then((exports) => {
-    const auth = (
-        Object.values(exports).filter(
-            (value) =>
-                typeof value == "function" && value.toString().includes("Bearer")
-        )[0] as (platform: boolean) => string
-    )(false);
-    let csrf = document.cookie.substring(document.cookie.indexOf("ct0=") + 4);
-    let next = csrf.indexOf(";");
-    if (next != -1) csrf = csrf.substring(0, next);
+subscribe("trackers.resolve", async (value) => {
+    const userId = (await (await extern_APIFetchUser).ZP(API).fetchOneUserByScreenName({ screen_name: value })).result;
+    let data = JSON.stringify(await (await extern_APIFollowing).ZP(API).fetchFollowing({ userId }));
 
-    const headers = {
-        Authorization: auth,
-        "X-Csrf-Token": csrf,
-        credentials: "same-origin",
-    };
+    let index = data.indexOf("screen_name");
+    if (index == -1) return send("tracker.resolve.fail", false);
 
-    subscribe("trackers.resolve", async (value) => {
-        let username = await fetch(
-            `${API_BASE}${GraphQL.UserByScreenName.ID}/UserByScreenName?variables=%7B%22screen_name%22%3A%22${value}%22%7D${GraphQL.UserByScreenName.Features}`,
-            { headers }
-        );
-        let obj = await username.json();
-        let id = obj.data.user.result.rest_id;
+    data = data.substring(index + 14);
+    if (data.indexOf("screen_name") != -1)
+        return send("tracker.resolve.fail", true);
 
-        let following = await fetch(
-            `${API_BASE}${GraphQL.Following.ID}/Following?variables=%7B%22userId%22%3A%22${id}%22%2C%22count%22%3A20%2C%22includePromotedContent%22%3Afalse%7D${GraphQL.Following.Features}`,
-            { headers }
-        );
-        let data = await following.text();
-
-        let index = data.indexOf("screen_name");
-        if (index == -1) return send("tracker.resolve.fail", false);
-
-        data = data.substring(index + 14);
-        if (data.indexOf("screen_name") != -1)
-            return send("tracker.resolve.fail", true);
-
-        let resolved = data.substring(0, data.indexOf('"'));
-        send("tracker.resolved", value, resolved);
-    });
+    let resolved = data.substring(0, data.indexOf('"'));
+    send("tracker.resolved", value, resolved);
 });

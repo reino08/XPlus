@@ -1,8 +1,12 @@
 <script>
   import Externals from "./Debug/Externals.svelte";
+  import GraphQl from "./Debug/GraphQL.svelte";
 
   let selected = $state(0);
-  const Tabs = [["Externals", Externals]];
+  const Tabs = [
+    ["Externals", Externals],
+    ["GraphQL", GraphQl],
+  ];
 
   Object.defineProperty(Tabs, "Selected", {
     get: () => Tabs[selected][1],

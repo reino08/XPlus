@@ -2,16 +2,25 @@ import type * as ReactTypes from "react";
 import type * as ReactDOMTypes from "react-dom/client";
 import Webpack from "./webpack.ts"
 
+// React library
 export const extern_React: Promise<typeof ReactTypes> = Webpack.getProps(x => x, "createElement");
 export const extern_ReactDOM: Promise<typeof ReactDOMTypes> = Webpack.getProps(x => x, "createRoot");
 export const extern_Link = Webpack.getString("link", x => x?.e);
 
+// Draft.js library
 export const extern_DraftJSEditor = Webpack.getString("_handleEditorContainerRef", x => x?.prototype?.render);
 export const extern_DraftJSEditorState = Webpack.getProps(x => x, "undo", "redo");
 export const extern_DraftJSContentState = Webpack.getProps(x => x, "createFromText");
 
+// Internal site data
 export const extern_UserData = Webpack.getString("Bearer", x => x?.__xp_module);
+export const extern_HeartBeat = Webpack.getProps(x => x, "S1");
 
+// API calls
+export const extern_APIFetchUser = Webpack.getString("fetchOneUserByScreenName", x => x?.ZP);
+export const extern_APIFollowing = Webpack.getString("fetchFollowing", x => x?.ZP);
+
+// React components
 export const extern_Tweet = Webpack.getString("tweet:e.tweet", x => x?.ZP?.render);
 export const extern_TweetUser = Webpack.getString("_getUserScreenNameNode", x => x?.Z);
 export const extern_UserCard = Webpack.getString("_useUserHoverCardWrapper", x => x?.Z?.prototype?.render);
