@@ -25,7 +25,7 @@
 <style>
   section {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     row-gap: 4px;
     column-gap: 4px;
   }

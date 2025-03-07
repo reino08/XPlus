@@ -17,6 +17,7 @@
     "GM_getValue",
     "GM.setValue",
     "GM_addElement",
+    "GM.xmlHttpRequest",
     "unsafeWindow"
   ]
 }

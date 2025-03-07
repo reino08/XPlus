@@ -19,6 +19,7 @@ export const extern_HeartBeat = Webpack.getProps(x => x, "S1");
 // API calls
 export const extern_APIFetchUser = Webpack.getString("fetchOneUserByScreenName", x => x?.ZP);
 export const extern_APIFollowing = Webpack.getString("fetchFollowing", x => x?.ZP);
+export const extern_APIBadgeCount = Webpack.getString("fetchBadgeCount", x => x?.Z);
 
 // React components
 export const extern_Tweet = Webpack.getString("tweet:e.tweet", x => x?.ZP?.render);
