@@ -1,17 +1,22 @@
-.xp-userinfo-container {
+.xp-userinfo {
     display: flex;
     flex-wrap: wrap;
     width: fit-content;
 }
 
-.xp-userinfo-child {
+.xp-userinfo>* {
     background-color: #202327;
+    color: #71767B;
     border-radius: 4px;
     font-family: "TwitterChirp";
     font-size: 11px;
     margin-left: 4px;
     padding: 2px 4px;
     text-decoration: none;
+}
+
+.xp-userinfo>*[data-threshold] {
+    color: #FFF;
 }
 
 .xp-rich-text-editor {

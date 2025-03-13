@@ -1,5 +1,5 @@
 <script>
-  import { channelOnce } from "../../commands.ts";
+  import { channelOnce, send } from "../../commands.ts";
 
   const data = channelOnce("debug.externs.get", "debug.externs.set").then(
     ([data]) => Object.entries(data)
@@ -11,13 +11,13 @@
 {:then data}
   <section>
     {#each data as [name, state]}
-      <div>
+      <button on:click={() => send("debug.externs.open", name)}>
         {name}
         <br />
         <span style:color={["cyan", "lime", "red"][state]}>
           {["Loading", "Succeeded", "Failed"][state]}
         </span>
-      </div>
+      </button>
     {/each}
   </section>
 {/await}
@@ -25,7 +25,7 @@
 <style>
   section {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     row-gap: 4px;
     column-gap: 4px;
   }

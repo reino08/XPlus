@@ -1,3 +1,4 @@
+import Logger from "../../logger.ts";
 import * as externs from "../externs.ts";
 import { send, subscribe } from "./commands.ts";
 
@@ -15,3 +16,4 @@ for (const [name, promise] of Object.entries(externs).map<[string, Promise<any>]
 }
 
 subscribe("debug.externs.get", () => send("debug.externs.set", states));
+subscribe("debug.externs.open", x => Logger.log(externs["extern_" + x]));
