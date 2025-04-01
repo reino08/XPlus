@@ -11,10 +11,12 @@ registerAddon(async (xp) => {
                     self.props.tweet?.created_at;
                 let string = new Date(timestamp).toUTCString();
                 let early = new Date(string + "+1400");
+                let middle = new Date(string);
                 let late = new Date(string + "-1200");
 
                 let tag =
                     (early.getMonth() == 3 && early.getDate() == 1) ||
+                        (middle.getMonth() == 3 && late.getDate() == 1) ||
                         (late.getMonth() == 3 && late.getDate() == 1)
                         ? xp.React.createElement("span", {
                             className:
