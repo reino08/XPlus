@@ -16,7 +16,7 @@ registerAddon(async (xp) => {
 
                 let tag =
                     (early.getMonth() == 3 && early.getDate() == 1) ||
-                        (middle.getMonth() == 3 && late.getDate() == 1) ||
+                        (middle.getMonth() == 3 && middle.getDate() == 1) ||
                         (late.getMonth() == 3 && late.getDate() == 1)
                         ? xp.React.createElement("span", {
                             className:
