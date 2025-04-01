@@ -1,0 +1,11 @@
+article:has(.xp-april-first) {
+    border: solid 1px yellow;
+}
+
+.xp-quoted-post+*:has(.xp-april-first-quote)>* {
+    border: solid 1px yellow;
+}
+
+.xp-quoted-post+ :not(:has(.xp-april-first-quote))>* {
+    background-color: black;
+}

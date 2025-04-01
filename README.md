@@ -19,3 +19,7 @@ Optional addons that are not in the core script due to potentially undesirable b
 ## Userlists ([Download](https://reino08.github.io/XPlus/X+.userlists.user.js))
 
 Adds lists of users with custom styling. Currently only supports the Shinigami Eyes lists.
+
+## April First Warning ([Download](https://reino08.github.io/XPlus/X+.aprilFirstWarning.user.js))
+
+Puts a yellow outline on posts created during April 1st.
