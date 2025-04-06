@@ -23,3 +23,7 @@ Adds lists of users with custom styling. Currently only supports the Shinigami E
 ## April First Warning ([Download](https://reino08.github.io/XPlus/X+.aprilFirstWarning.user.js))
 
 Puts a yellow outline on posts created during April 1st.
+
+## Notification Sound ([Download](https://reino08.github.io/XPlus/X+.notificationSound.user.js))
+
+Plays a noise each time a notification is received.
