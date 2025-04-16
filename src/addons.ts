@@ -6,6 +6,7 @@ import Logger from "./logger.ts";
 import Webpack from "./modules/webpack.ts";
 import * as patch from "./patch.ts";
 import { React, ReactDOM } from "./modules/react.ts";
+import { API } from "./modules/api.ts";
 
 export type XP = typeof data;
 const data = {
@@ -15,6 +16,7 @@ const data = {
     Logger, // TODO: return a specialized instance for each addon
     Webpack,
     Patch: patch,
+    get APIClient() { return API },
     get React() { return React },
     get ReactDOM() { return ReactDOM },
 };
