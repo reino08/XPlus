@@ -24,7 +24,7 @@ export const extern_APIFollowing = Webpack.getString("fetchFollowing", x => x?.Z
 export const extern_APIBadgeCount = Webpack.getString("fetchBadgeCount", x => x?.Z);
 
 // React components
-export const extern_Tweet = Webpack.getString("tweet:e.tweet", x => x?.ZP?.render);
+export const extern_Tweet = Webpack.getString("right_tweet_header_ad_label", x => x?.__xp_module);
 export const extern_TweetUser = Webpack.getString("_getUserScreenNameNode", x => x?.Z);
 export const extern_UserCard = Webpack.getString("_useUserHoverCardWrapper", x => x?.Z?.prototype?.render);
 export const extern_QuotedPost = Webpack.getString("isQuotedTweetUnavailable", x => x?.Z);

@@ -29,7 +29,7 @@ registerAddon(async (xp) => {
                     ...xp.React.Children.toArray(res.props.children),
                 ];
             },
-            -200
+            -210
         )
     );
 });
