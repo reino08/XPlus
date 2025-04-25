@@ -36,7 +36,7 @@ function getVideoUrl(self): string | void {
 
     let best: any = undefined;
     for (let video of videos) {
-        if ((best?.bitrate || 0) < video.bitrate)
+        if ((best?.bitrate || -Infinity) < video.bitrate)
             best = video;
     }
 
