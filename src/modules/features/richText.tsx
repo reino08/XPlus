@@ -52,7 +52,7 @@ const ranges: [description: string, tooltip: string, [start: number, end: number
 ];
 
 DraftJSEditorPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
-    res.props.children.unshift(<div className="xp-rich-text-editor" onMouseDown={e => e.preventDefault()}>
+    res.props.children.unshift(<div title="Select text and press a button to replace letters with lookalikes, bolded/italicized forms, or double-stroke forms." className="xp-rich-text-editor" onMouseDown={e => e.preventDefault()}>
         <button title="Original Characters" onClick={() => replace(char => getOriginal(char))}>R</button>
         <button title="Confusables" onClick={() => replaceMap(confusableMap)}>C</button>
         {ranges.map(([desc, tooltip, ranges]) => <button title={tooltip} onClick={() => replaceRange(ranges)}>{desc}</button>)}
