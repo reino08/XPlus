@@ -33,8 +33,8 @@ export const confusableMap = {
 const unconfusableMap = Object.entries(confusableMap).reduce((x, [key, value]) => (x[value as any] = key, x), {});
 
 // Letters are numbers, so they can be converted with math
-// The numbers have their offset extracted by removing the start of their block, 
-//  so `g` becomes 0x06 (its place in the alphabet) instead of 0x67 
+// The numbers have their offset extracted by removing the start of their block,
+//  so `g` becomes 0x06 (its place in the alphabet) instead of 0x67
 //  This can be represented as either 'g' - 'a' or 0x67 - 0x61.
 //  However JavaScript does not allow for character literals to be used as numbers,
 //    so you would have to use a lower level language to write 'g' - 'a'.
@@ -44,18 +44,18 @@ const unconfusableMap = Object.entries(confusableMap).reduce((x, [key, value]) =
 // There is an exclude component to one of the ranges because some mathematical double-struck capital letters do not exist.
 //  Instead they exist as regular double-struck capital letters, making them non-contiguous, thus requiring another map.
 // The bypass map could not have used this process as it is not contiguous. The letters were manually chosen.
-const ranges: [description: string, [start: number, end: number, codepoint: number, exclude?: number[]][]][] = [
-    ["B", [[0x61, 0x7A, 0x1D41A], [0x41, 0x5A, 0x1D400]]],
-    ["I", [[0x61, 0x7A, 0x1D44E], [0x41, 0x5A, 0x1D434]]],
-    ["BI", [[0x61, 0x7A, 0x1D482], [0x41, 0x5A, 0x1D468]]],
-    ["DS", [[0x61, 0x7A, 0x1D552], [0x41, 0x5A, 0x1D538, [2, 7, 13, 15, 16, 17, 25]]]],
+const ranges: [description: string, tooltip: string, [start: number, end: number, codepoint: number, exclude?: number[]][]][] = [
+    ["B", "Bold Letters", [[0x61, 0x7A, 0x1D41A], [0x41, 0x5A, 0x1D400]]],
+    ["I", "Italic Letters", [[0x61, 0x7A, 0x1D44E], [0x41, 0x5A, 0x1D434]]],
+    ["BI", "Bold & Italic Letters", [[0x61, 0x7A, 0x1D482], [0x41, 0x5A, 0x1D468]]],
+    ["DS", "Double-Stroke Letters", [[0x61, 0x7A, 0x1D552], [0x41, 0x5A, 0x1D538, [2, 7, 13, 15, 16, 17, 25]]]],
 ];
 
 DraftJSEditorPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
-    res.props.children.unshift(<div className="xp-rich-text-editor" onMouseDown={e => e.preventDefault()}>
-        <button onClick={() => replace(char => getOriginal(char))}>R</button>
-        <button onClick={() => replaceMap(confusableMap)}>C</button>
-        {ranges.map(([desc, ranges]) => <button onClick={() => replaceRange(ranges)}>{desc}</button>)}
+    res.props.children.unshift(<div title="Select text and press a button to replace letters with lookalikes, bolded/italicized forms, or double-stroke forms." className="xp-rich-text-editor" onMouseDown={e => e.preventDefault()}>
+        <button title="Original Characters" onClick={() => replace(char => getOriginal(char))}>R</button>
+        <button title="Confusables" onClick={() => replaceMap(confusableMap)}>C</button>
+        {ranges.map(([desc, tooltip, ranges]) => <button title={tooltip} onClick={() => replaceRange(ranges)}>{desc}</button>)}
     </div>);
 
     // TODO: support cross-element selections
@@ -79,7 +79,7 @@ DraftJSEditorPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
         if (!codepoint) return char;
 
         for (let range of ranges) {
-            for (let [start, end, base] of range[1]) {
+            for (let [start, end, base] of range[2]) {
                 if (codepoint >= base && codepoint <= base + end - start)
                     return String.fromCodePoint(codepoint - base + start);
             }
