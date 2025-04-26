@@ -79,7 +79,7 @@ DraftJSEditorPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
         if (!codepoint) return char;
 
         for (let range of ranges) {
-            for (let [start, end, base] of range[1]) {
+            for (let [start, end, base] of range[2]) {
                 if (codepoint >= base && codepoint <= base + end - start)
                     return String.fromCodePoint(codepoint - base + start);
             }
