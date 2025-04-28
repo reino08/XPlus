@@ -8,8 +8,57 @@
 # Optionally prefix a filter to only apply to [b]ios or [u]sernames.
 # The filtered field is shown and does not need to be in the filter name
 #
-# Example of a regex to filter out everyone with an empty bio:
-# b/^$/ # Empty`;
+# Example filters:
+
+# Empty Bio
+# b/^$/
+
+# War Spammers
+# /\ud83c\uddee\ud83c\uddf1/g # Israel Flag
+# /\ud83c\uddf5\ud83c\uddf8/g # Palestine Flag
+# /\ud83c\uddfa\ud83c\udde6/g # Ukraine Flag
+# /\ud83c\uddf7\ud83c\uddfa/g # Russian Flag
+# /\ud83c\udf49/g # Pro-Palestine Spammers
+
+# 18+/OF/NSFW accounts
+# /\ud83d(\udd1e|\udc45)/g
+
+# Religious Spammers
+# /\u271d/g # Christians
+# /\u2721/g # Jews
+# /\u262a/g # Muslims
+# b/atheist/i # Atheists
+# b/agnostic/i # Agnostics
+
+# Roleplay/Alt Accounts
+# /(\s+)(uwu|owo|furry)/gi
+# b/(nsfw|priv|private|main)\s*(:|acc|@)/gi
+# b/(ooc|parody)/gi
+
+# Groomers/Online Daters
+# b/taken/gi
+# b/single/gi
+# b/tellonym.me\//g
+
+# Minors
+# b/minor/gi # (may have adverse effects)
+# b/(?<![^\s])\s?1[0-7](?![^\s[:punct:]])/g
+
+# Annoying Poltical Spammers
+# /\u262d/g # Communist Symbolism
+# b/liberal/gi # Liberals
+# b/conservative/gi # Conservatives
+
+# Sports/Celebrity Worshippers
+# b/(\s+)stan(?<![a-z])/gi # Celebrity "stans"
+# b/(football|basketball|baseball|soccer|superbowl)/gi # Sports
+
+# Annoying Twitter Stuff
+# /hrt/gim # Groomers
+# /(he|she|they|it|xe)\/(him|her|they|them|she|it|xer)/gi
+# b/(^|\s+)\/(j|hj|s|srs|nsrs|gen|tw)($|\s+)/g # Tone Indicators
+# b/dn(i|f)/gi # "DNI"
+`;
 
   let value = $state(null);
   let errCount = $state(0);
