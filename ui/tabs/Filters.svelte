@@ -21,7 +21,7 @@
 # /\ud83c\udf49/g # Pro-Palestine Spammers
 
 # 18+/OF/NSFW accounts
-# /\ud83d(\udd1e|\udc45)/g
+# /\ud83d(\udd1e|\udc45)/g # NSFW account
 
 # Religious Spammers
 # /\u271d/g # Christians
@@ -31,18 +31,18 @@
 # b/agnostic/i # Agnostics
 
 # Roleplay/Alt Accounts
-# /(\s+)(uwu|owo|furry)/gi
-# b/(nsfw|priv|private|main)\s*(:|acc|@)/gi
-# b/(ooc|parody)/gi
+# /(\s+)(uwu|owo|furry)/gi # RP
+# b/(nsfw|priv|private|main)\s*(:|acc|@)/gi # Alt
+# b/(ooc|parody)/gi # Parody
 
 # Groomers/Online Daters
-# b/taken/gi
-# b/single/gi
-# b/tellonym.me\//g
+# b/taken/gi # E-Dater
+# b/single/gi # E-Dater
+# b/tellonym.me\//g # E-Groomer
 
 # Minors
-# b/minor/gi # (may have adverse effects)
-# b/(?<![^\s])\s?1[0-7](?![^\s[:punct:]])/g
+# b/minor/gi # Minor
+# b/(?<![^\s])\s?1[0-7](?![^\s[:punct:]])/g # Minor
 
 # Annoying Poltical Spammers
 # /\u262d/g # Communist Symbolism
@@ -55,7 +55,7 @@
 
 # Annoying Twitter Stuff
 # /hrt/gim # Groomers
-# /(he|she|they|it|xe)\/(him|her|they|them|she|it|xer)/gi
+# /(he|she|they|it|xe)\/(him|her|they|them|she|it|xer)/gi # Pronouns
 # b/(^|\s+)\/(j|hj|s|srs|nsrs|gen|tw)($|\s+)/g # Tone Indicators
 # b/dn(i|f)/gi # "DNI"
 `;
