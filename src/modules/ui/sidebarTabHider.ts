@@ -32,6 +32,8 @@ SidebarPatch.then(patch => patch.subscribe(patch.post, (_, __, res) => {
 }, -10_000));
 
 function Hideable({ child }) {
+    if (!child?.props) return child;
+
     let [_, update] = React.useReducer(x => x + 1, 0);
 
     patchHalves(child.props, "onClick", (_: any, [e], res) => {
