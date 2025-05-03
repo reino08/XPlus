@@ -38,3 +38,6 @@ export const extern_Poll = Webpack.get(exports => exports?.HWCard);
 export const extern_ContextMenu = Webpack.getProps(x => x?.default?.WrappedComponent?.type?.WrappedComponent?.type?.render?.()?.props?.wrappedComponent?.WrappedComponent?.prototype, "_shouldIncludeTweetAppealOption");
 export const extern_Sidebar = Webpack.getString("wideMode", x => x?.ZP);
 export const extern_SidebarButton = Webpack.getString("showHasNewItemsIndicator", x => x?.ZP);
+export const extern_WindowHeader = Webpack.getString("backButtonType", x => x?.ZP);
+export const extern_DMPage = Webpack.getString("_renderForOneColumnLayout", x => x?.__xp_module);
+export const extern_DMMessages = Webpack.getString("DIRECT_MESSAGES_CONVERSATION", x => x?.__xp_module);
