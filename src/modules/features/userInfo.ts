@@ -11,7 +11,8 @@ UserCardPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
         React.createElement("span", ...make("post", true, user.statuses_count, 10)),
         React.createElement("span", ...make("media", false, user.media_count, 5)),
         makeLink(...make("list", true, -(user.listed_count || 0), 0), `/${user.screen_name}/lists/memberships`),
-        makeLink({}, `ID: ${user.id_str}`, `/i/perma/${user.id_str}`)
+        makeLink({}, `ID: ${user.id_str}`, `/i/perma/${user.id_str}`),
+        React.createElement("button", { onClick: () => navigator.clipboard.writeText(user.id_str) }, "Copy ID")
     ];
 
     res.props.children.props.children.push(
