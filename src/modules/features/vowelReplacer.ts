@@ -23,6 +23,13 @@ DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) =>
 
     res.props.children.unshift(React.createElement("div", { className: "xp-draftjs-vowel-replacer", title: "Automatically replaces vowels with confusables to bypass word filters." },
         React.createElement("label", null, "Bypass"),
-        React.createElement("input", { type: "checkbox", defaultChecked: settings.draftjs_vowel_replacer, onChange: e => settings.draftjs_vowel_replacer = e.currentTarget.checked }),
+        React.createElement("input", {
+            type: "checkbox",
+            defaultChecked: settings.draftjs_vowel_replacer,
+            onChange: event => {
+                settings.draftjs_vowel_replacer = event.currentTarget.checked;
+                self._onBlur(event);
+            }
+        }),
     ));
 }, -200));
