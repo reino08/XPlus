@@ -7,6 +7,7 @@ import "./modules/**/*.*";
 // Allows external scripts to access internal data.
 // Addons interact with this through their core.ts file
 import "./addons.ts";
+import Logger, { Level } from "./logger.ts";
 export type { XP } from "./addons.ts";
 
 setTimeout(() => {
@@ -15,3 +16,5 @@ setTimeout(() => {
     if (document.getElementById("placeholder"))
         location.reload();
 }, 1_000);
+
+Logger.log("Loaded X+ core");

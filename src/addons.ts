@@ -29,19 +29,49 @@ Object.defineProperty(unsafeWindow, Symbol.for("X+"), {
 });
 
 load0(data);
+load1(data);
 
 // Versioned loaders for if the interface ever needs to change
-export function load0(data: XP) {
-    const symbol = Symbol.for("X+ Addons 0");
+export function load0(xp: XP) {
+    read(
+        Symbol.for("X+ Addons 0"),
+        invoke.bind(undefined, xp)
+    );
+}
+
+export function load1(xp: XP) {
+    read(
+        Symbol.for("X+ Addons 1"),
+        ([callbacks, name]) => invoke(xp, callbacks, name)
+    );
+}
+
+function read(symbol: symbol, handle: any) {
     let existing = unsafeWindow[symbol];
     if (existing)
-        for (const callback of existing)
-            callback(data);
+        for (const data of existing)
+            handle(data);
     else existing = (unsafeWindow[symbol] = []);
 
     const original = existing.push;
-    existing.push = function (callback: (xp: XP) => void) {
-        callback(data);
+    existing.push = function (data: any) {
+        handle(data)
         return original.apply(this, arguments);
     }
+}
+
+function invoke(xp: XP, callback: (xp: XP) => void, name: string = undefined) {
+    console.log(callback);
+
+    let display = name == undefined
+        ? "unnamed addon"
+        : "addon " + name;
+
+    try {
+        callback(xp);
+    } catch (err) {
+        Logger.error("Failed to load " + display);
+    }
+
+    Logger.log("Loaded " + display);
 }

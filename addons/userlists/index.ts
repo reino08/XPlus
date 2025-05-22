@@ -1,6 +1,6 @@
 import "./style.css";
 import { filter1_url, filter2_url } from "./config.json";
-import { registerAddon } from "../core.ts";
+import { registerNamedAddon } from "../core.ts";
 
 import BloomFilter from "./bloomfilter.ts";
 
@@ -14,7 +14,7 @@ const [filter1, filter2] = [filter1_url, filter2_url].map((url) =>
     ])
 );
 
-registerAddon(async (xp) => {
+registerNamedAddon("User Lists", async (xp) => {
     const [Filter1a, Filter1b] = await filter1;
     const [Filter2a, Filter2b] = await filter2;
 

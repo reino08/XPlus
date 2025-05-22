@@ -43,3 +43,4 @@ export const extern_SidebarButton = Webpack.getString("showHasNewItemsIndicator"
 export const extern_WindowHeader = Webpack.getString("backButtonType", x => x?.ZP);
 export const extern_DMPage = Webpack.getString("_renderForOneColumnLayout", x => x?.__xp_module);
 export const extern_DMMessages = Webpack.getString("DIRECT_MESSAGES_CONVERSATION", x => x?.__xp_module);
+export const extern_RightSidebar = Webpack.getString("rweb_sidebar_lower_whats_happening_enabled", x => x?.__xp_module);

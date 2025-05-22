@@ -1,7 +1,7 @@
 import "./style.css";
-import { registerAddon } from "../core.ts";
+import { registerNamedAddon } from "../core.ts";
 
-registerAddon(async (xp) => {
+registerNamedAddon("April First Warning", async (xp) => {
     xp.patches.TweetUserPatch.then((patch) =>
         patch.subscribe(
             patch.post,

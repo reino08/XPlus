@@ -1,11 +1,11 @@
-import { registerAddon, type XP } from "../core";
+import { registerNamedAddon, type XP } from "../core";
 
 import "./save";
 import extract from "./extractor";
 
 let cancelled: boolean = false;
 
-registerAddon(xp => {
+registerNamedAddon("Post Downloader", xp => {
     registerStart();
     function registerStart() {
         GM_registerMenuCommand("Start downloading", () => {
@@ -55,11 +55,11 @@ registerAddon(xp => {
 
                 if (posts.length == 0) {
                     if (++zeroCount == 5) {
-                        console.log("Finished downloading.");
+                        xp.Logger.write("Finished downloading.");
                         registerStop();
-                    } else console.log("Received no posts, increasing delay");
+                    } else xp.Logger.write("Received no posts, increasing delay");
                 } else {
-                    console.log(`Saved ${posts.length} posts`);
+                    xp.Logger.write(`Saved ${posts.length} posts`);
                     zeroCount = 0
                 }
             } catch (err) {

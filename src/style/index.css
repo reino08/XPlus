@@ -83,3 +83,21 @@
 .xp-draftjs-vowel-replacer label {
     color: gray
 }
+
+.xp-logs {
+    height: calc(100vh - 57px);
+}
+
+.xp-logs div {
+    font-size: 15px;
+    font-family: "TwitterChirp";
+}
+
+.xp-logs div.xp-logs-warn {
+    color: orange;
+}
+
+
+.xp-logs div.xp-logs-error {
+    color: red;
+}
