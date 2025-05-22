@@ -27,3 +27,7 @@ Puts a yellow outline on posts created during April 1st.
 ## Notification Sound ([Download](https://reino08.github.io/XPlus/X+.notificationSound.user.js))
 
 Plays a noise each time a notification is received.
+
+## Post Downloader ([Download](https://reino08.github.io/XPlus/X+.postDownloader.user.js))
+
+Downloads all of a user's posts.

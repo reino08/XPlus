@@ -1,7 +1,8 @@
 import type * as ReactTypes from "react";
 import type * as ReactDOMTypes from "react-dom/client";
 import type * as ReactRouter from "react-router";
-import Webpack from "./webpack.ts"
+import type { APIFetcher, FetchPosts } from "../../types/api/index";
+import Webpack from "./webpack"
 
 // React library
 export const extern_React: Promise<typeof ReactTypes> = Webpack.getProps(x => x, "createElement");
@@ -22,6 +23,7 @@ export const extern_HeartBeat = Webpack.getProps(x => x, "S1");
 export const extern_APIFetchUser = Webpack.getString("fetchOneUserByScreenName", x => x?.ZP);
 export const extern_APIFollowing = Webpack.getString("fetchFollowing", x => x?.ZP);
 export const extern_APIBadgeCount = Webpack.getString("fetchBadgeCount", x => x?.Z);
+export const extern_APIFetchPosts: Promise<APIFetcher<'Z', FetchPosts>> = Webpack.getString("fetchUserTweets", x => x?.Z);
 
 // React components
 export const extern_Tweet = Webpack.getString("right_tweet_header_ad_label", x => x?.__xp_module);

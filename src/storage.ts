@@ -1,8 +1,11 @@
 const cache = {};
 const deactivated = Symbol("Deactivated");
 
+type Listener = (key: string, value: any) => void;
+
 export default class Storage {
     readonly #prefix: string;
+    readonly #listeners: Map<string, Listener[]> = new Map();
 
     protected constructor(prefix: string = '') {
         prefix += '-';
@@ -35,6 +38,7 @@ export default class Storage {
                 const key = target.#key(prop);
 
                 GM.setValue(key, cache[key] = value);
+                target.#listeners.get[prop]?.forEach(x => x(prop, value));
                 return true;
             },
         });
@@ -47,6 +51,12 @@ export default class Storage {
     save(prop: string) {
         const key = this.#key(prop);
         GM.setValue(key, cache[key]);
+    }
+
+    subscribe(prop: string, listener: Listener) {
+        if (this.#listeners.has(prop))
+            this.#listeners.get(prop).push(listener);
+        else this.#listeners.set(prop, [listener]);
     }
 
     static new<T extends Storage>(prefix: string = ""): T {

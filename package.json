@@ -19,6 +19,6 @@
   },
   "scripts": {
     "build": "rollup -wc",
-    "serve": "powershell ./build/serve.ps1"
+    "serve": "pwsh ./build/serve.ps1"
   }
 }

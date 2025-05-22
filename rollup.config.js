@@ -29,6 +29,7 @@ export default [
       file: "public/X+.user.js",
     },
     plugins: [
+      nodeResolve({ extensions: [".ts"] }),
       globImport({ format: "import" }),
       resolveJsonModule(),
       styles({ minimize: true }),
@@ -70,6 +71,7 @@ export default [
       input: `./addons/${dir.name}/index.ts`,
       output: { file: `public/X+.${dir.name}.user.js` },
       plugins: [
+        nodeResolve({ extensions: [".ts"] }),
         globImport({ format: "import" }),
         resolveJsonModule(),
         styles({ minimize: true }),
