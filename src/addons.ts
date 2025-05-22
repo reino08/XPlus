@@ -61,8 +61,6 @@ function read(symbol: symbol, handle: any) {
 }
 
 function invoke(xp: XP, callback: (xp: XP) => void, name: string = undefined) {
-    console.log(callback);
-
     let display = name == undefined
         ? "unnamed addon"
         : "addon " + name;
