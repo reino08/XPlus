@@ -30,7 +30,7 @@ export const confusableMap = {
     y: "\u0443", Y: "\u03a5",
     z: "\u1d22", Z: "\u0396",
 };
-const unconfusableMap = Object.entries(confusableMap).reduce((x, [key, value]) => (x[value as any] = key, x), {});
+export const unconfusableMap = Object.entries(confusableMap).reduce((x, [key, value]) => (x[value as any] = key, x), {});
 
 // Letters are numbers, so they can be converted with math
 // The numbers have their offset extracted by removing the start of their block,

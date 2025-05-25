@@ -1,7 +1,7 @@
 import { React } from "../react.ts";
 import { DraftJSEditorPatch } from "../patches.ts";
 import { patchHalves } from "../../patch.ts";
-import { confusableMap } from "./richText.tsx";
+import { confusableMap, unconfusableMap } from "./richText.tsx";
 import { settings } from "../../settings.ts";
 
 DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) => {
@@ -14,7 +14,7 @@ DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) =>
         let done: boolean, entry: [string, any];
         while (({ done, value: entry } = iter.next(), !done)) {
             let [key, value] = entry;
-            value = value.set("text", value.text.replace(/[aiueo]/gi, char => confusableMap[char]));
+            value = value.set("text", replace(value.text));
             blockMap = blockMap.set(key, value);
         }
 
@@ -33,3 +33,24 @@ DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) =>
         }),
     ));
 }, -200));
+
+// X uses a whitelist of TLDs instead of checking the length
+const websiteRegex = /[\w]+\.[a-z]{2,}/gi;
+
+function replace(str: string) {
+    // Return the string to normal, split it at every word, then if a word isn't blacklisted, confuse the vowels in it
+    return str
+        .split("")
+        .map(char => unconfusableMap[char] || char)
+        .join("")
+        .split(" ")
+        .map((word) => blacklisted(word)
+            ? word
+            : word.replace(/[aiueo]/gi, char => confusableMap[char]))
+        .join(" ");
+}
+
+function blacklisted(word: string) {
+    return word.startsWith("@") // Mentions must have a whitespace before the @ 
+        || websiteRegex.test(word)
+}
