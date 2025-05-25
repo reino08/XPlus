@@ -14,7 +14,10 @@ DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) =>
         let done: boolean, entry: [string, any];
         while (({ done, value: entry } = iter.next(), !done)) {
             let [key, value] = entry;
-            value = value.set("text", value.text.replace(/[aiueo]/gi, char => confusableMap[char]));
+            value = value.set("text", value.text.replace(/(@\S+)|[aiueo]/gi, (char, mention) => {
+                if (mention) return mention;
+                return confusableMap[char];
+            }));
             blockMap = blockMap.set(key, value);
         }
 
