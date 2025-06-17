@@ -1,23 +1,22 @@
-import { patchHalves } from "../../patch.ts";
 import { API } from "../api.ts";
 import { extern_APIFetchUser, extern_ReactRouter } from "../externs.ts";
+import { RunApplicationPatch } from "../patches.ts";
 import { React } from "../react.ts";
 
+// why is it cached?
 const cache = {};
 
-extern_ReactRouter.then((exports) => {
-    const mark = name => exports[name].displayName = name;
-    ["MemoryRouter", "Route", "Router", "StaticRouter", "Switch"].forEach(mark);
-
-    patchHalves(exports.Switch.prototype, "render", undefined, (_, __, res) => {
-        const original = res.props.children;
-        res.props.children = function () {
-            return [original.apply(this, arguments), React.createElement(Permalink)];
-        }
-    })
+extern_ReactRouter.then(exports => {
+    RunApplicationPatch.then(patch => patch.subscribe(patch.pre, (_self, [_appKey, appParameters]) => {
+        const routes = appParameters.initialProps.routerProps.children.props.children.props.children;
+        routes[1].props.children[1].push(React.createElement(exports.Route, {
+            exact: true,
+            path: "/i/perma/:user_id",
+        }, React.createElement(Permalink)));
+    }));
 
     function Permalink() {
-        const user_id = exports.useRouteMatch("/i/perma/:id")?.params?.["id"];
+        const { user_id } = exports.useParams<{ user_id: string }>();
         if (!user_id) return;
 
         const [name, setName] = React.useState();

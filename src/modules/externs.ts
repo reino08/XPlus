@@ -1,6 +1,7 @@
 import type * as ReactTypes from "react";
 import type * as ReactDOMTypes from "react-dom/client";
 import type * as ReactRouter from "react-router";
+import type AppRegistry from "react-native-web";
 import type { APIFetcher, FetchPosts } from "../../types/api/index";
 import Webpack from "./webpack"
 
@@ -8,6 +9,7 @@ import Webpack from "./webpack"
 export const extern_React: Promise<typeof ReactTypes> = Webpack.getProps(x => x, "createElement");
 export const extern_ReactDOM: Promise<typeof ReactDOMTypes> = Webpack.getProps(x => x, "createRoot");
 export const extern_ReactRouter: Promise<typeof ReactRouter> = Webpack.getProps(x => x, "MemoryRouter");
+export const extern_ReactNativeAppRegistry: Promise<typeof AppRegistry> = Webpack.getProps(x => x?.Z, "runApplication");
 export const extern_Link = Webpack.getString("link", x => x?.e);
 
 // Draft.js library
