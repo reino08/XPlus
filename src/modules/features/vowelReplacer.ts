@@ -1,7 +1,7 @@
 import { React } from "../react.ts";
 import { DraftJSEditorPatch } from "../patches.ts";
 import { patchHalves } from "../../patch.ts";
-import { confusableMap, unconfusableMap } from "./richText.tsx";
+import { confusableMap, unconfusableMap } from "./richText.ts";
 import { settings } from "../../settings.ts";
 
 DraftJSEditorPatch.then((patch) => patch.subscribe(patch.post, (self, _, res) => {

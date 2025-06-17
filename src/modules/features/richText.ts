@@ -52,11 +52,24 @@ const ranges: [description: string, tooltip: string, [start: number, end: number
 ];
 
 DraftJSEditorPatch.then(patch => patch.subscribe(patch.post, (self, _, res) => {
-    res.props.children.unshift(<div title="Select text and press a button to replace letters with lookalikes, bolded/italicized forms, or double-stroke forms." className="xp-rich-text-editor" onMouseDown={e => e.preventDefault()}>
-        <button title="Original Characters" onClick={() => replace(char => getOriginal(char))}>R</button>
-        <button title="Confusables" onClick={() => replaceMap(confusableMap)}>C</button>
-        {ranges.map(([desc, tooltip, ranges]) => <button title={tooltip} onClick={() => replaceRange(ranges)}>{desc}</button>)}
-    </div>);
+    res.props.children.unshift(React.createElement("div", {
+        title: "Select text and press a button to replace letters with lookalikes, bolded/italicized forms, or double-stroke forms.",
+        className: "xp-rich-text-editor",
+        onMouseDown: e => e.preventDefault()
+    }, [
+        React.createElement("button", {
+            title: "Original Characters",
+            onClick: () => replace(char => getOriginal(char)),
+        }, "R"),
+        React.createElement("button", {
+            title: "Confusables",
+            onClick: () => replaceMap(confusableMap),
+        }, "C"),
+        ...ranges.map(([desc, tooltip, ranges]) => React.createElement("button", {
+            title: tooltip,
+            onClick: () => replaceRange(ranges),
+        }, desc))
+    ]));
 
     // TODO: support cross-element selections
     function getSelection(): string {

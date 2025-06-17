@@ -14,7 +14,6 @@ const swcOpts = {
     jsc: {
       parser: {
         syntax: "typescript",
-        tsx: true,
       },
       target: "esnext",
     },
