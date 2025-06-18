@@ -1,6 +1,9 @@
-import { makeLink } from "../../utils.ts";
 import { patchHalves } from "../../patch.ts";
-import { extern_ActionBar, extern_ActionBarParent } from "../externs.ts";
+import { extern_ActionBar, extern_ActionBarParent, extern_TweetButton } from "../externs.ts";
+import { React } from "../react.ts";
+
+export let TweetButton;
+extern_TweetButton.then(exports => TweetButton = exports.ZP);
 
 extern_ActionBarParent.then(exports => {
     let obj = exports.Z.WrappedComponent.type.WrappedComponent.type;
@@ -30,8 +33,14 @@ extern_ActionBar.then(exports => {
             return;
 
         let children: any[] = res.props.children.props.children;
-        children.splice(2, 0,
-            makeLink({ className: "xp-quote-count" }, props.quoteCount, `/${props.tweetLink}/quotes`)
-        );
+        let button = React.createElement(TweetButton, {
+            Icon: () => React.createElement("div", { style: { fontSize: "16px", } }, "Q"),
+            count: props.quoteCount,
+            link: `${props.tweetLink}/quotes`,
+            style: { flex: 1 },
+            withCount: true,
+        });
+
+        children.splice(2, 0, button);
     });
 });

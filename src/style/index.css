@@ -39,22 +39,6 @@
     height: 16px;
 }
 
-.xp-quote-count {
-    flex: 1;
-    font-family: "TwitterChirp";
-    line-height: 20px;
-    text-decoration: none;
-    color: #71767b;
-    font-size: 13px;
-    margin: auto;
-}
-
-.xp-quote-count::before {
-    content: "Q ";
-    font-size: 16px;
-    vertical-align: bottom;
-}
-
 .xp-filtered {
     color: #b8babd;
     margin-left: 4px;

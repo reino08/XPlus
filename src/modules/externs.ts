@@ -30,6 +30,7 @@ export const extern_APIFetchPosts: Promise<APIFetcher<'Z', FetchPosts>> = Webpac
 // React components
 export const extern_Tweet = Webpack.getString("right_tweet_header_ad_label", x => x?.__xp_module);
 export const extern_TweetUser = Webpack.getString("_getUserScreenNameNode", x => x?.Z);
+export const extern_TweetButton = Webpack.getString("ActiveIcon", x => x?.ZP);
 export const extern_UserCard = Webpack.getString("_useUserHoverCardWrapper", x => x?.Z?.prototype?.render);
 export const extern_QuotedPost = Webpack.getString("isQuotedTweetUnavailable", x => x?.Z);
 export const extern_FollowButton = Webpack.getString("isSuperFollowing", x => x?.Z?.prototype?.render);
