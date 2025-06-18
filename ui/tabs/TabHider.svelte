@@ -1,5 +1,5 @@
 <script>
-  import { channel, send } from "../commands.ts";
+  import { channel, send, get } from "../commands.ts";
 
   let value = $state();
 
@@ -7,6 +7,28 @@
 
   const save = () => send("hidden_tabs.set", value);
 </script>
+
+<section>
+  {#await get("hidden_grok") then value}
+    <label for="grok">Hidden grok drawer</label>
+    <input
+      name="grok"
+      type="checkbox"
+      checked={value}
+      onchange={(e) => send("set", "hidden_grok", e.target.checked)}
+    />
+  {/await}
+
+  {#await get("hidden_dms") then value}
+    <label for="dms">Hidden DMs drawer</label>
+    <input
+      name="dms"
+      type="checkbox"
+      checked={value}
+      onchange={(e) => send("set", "hidden_dms", e.target.checked)}
+    />
+  {/await}
+</section>
 
 <div>
   Control alt click a tab on the sidebar, or enter the name of a tab on the

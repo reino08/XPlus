@@ -18,15 +18,20 @@ window.addEventListener("message", event => {
         listener(command, data);
 });
 
+function __createSubscriber(filter: (target: string, data: any) => boolean, callback: (...data: any[]) => void, once = false) {
+    const listener = (target: string, data: any) => {
+        if (!filter(target, data)) return;
+
+        if (once) listeners.delete(listener);
+        callback(...data);
+    };
+
+    return listener;
+}
+
 export function subscribe(command: string, callback: (...data: any[]) => void, once = false) {
     onMount(() => {
-        const listener = (target: string, data: any) => {
-            if (target != command) return;
-
-            if (once) listeners.delete(listener);
-            callback(...data);
-        };
-
+        const listener = __createSubscriber((target) => target == command, callback, once);
         listeners.add(listener);
         return () => listeners.delete(listener);
     });
@@ -49,4 +54,16 @@ export function channelOnce(src: string, dest: string): Promise<any[]> {
 export function channel(src: string, dest: string, callback: (...data: any[]) => void) {
     subscribe(dest, callback);
     onMount(() => send(src));
+}
+
+export function get<T>(prop: string): Promise<T> {
+    send("get", prop);
+
+    return new Promise(res => {
+        listeners.add(__createSubscriber(
+            (target, data) => target == "set" && data[0] == prop,
+            (_, value) => res(value),
+            true)
+        );
+    });
 }
