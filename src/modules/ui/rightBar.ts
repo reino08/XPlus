@@ -3,11 +3,16 @@ import { patchHalves } from "../../patch";
 import { extern_RightSidebar } from "../externs";
 import { React } from "../react";
 
-let pastLogs = [];
-const fallbackCallback = (message: string, level: Level) => pastLogs.push([Math.random(), message, level]);
-listeners.add(fallbackCallback);
-
 type Logs = [number, string, Level][];
+
+const retained = 99;
+
+let logs = [];
+let setLogs: any;
+listeners.add(function (message: string, level: Level) {
+    logs = [...logs.slice(-retained), [Math.random(), message, level]];
+    setLogs?.(logs);
+});
 
 extern_RightSidebar.then(exports => patchHalves(exports, "B", undefined, (_, __, res) => {
     patchHalves(res.type, "type", undefined, (_, __, res) => {
@@ -19,25 +24,17 @@ extern_RightSidebar.then(exports => patchHalves(exports, "B", undefined, (_, __,
 }));
 
 function Logs() {
-    const [logs, setLogs] = React.useState<Logs>(() => {
-        listeners.delete(fallbackCallback);
-        return pastLogs;
-    });
+    const [componentLines, componentSetLogs] = React.useState<Logs>(logs);
 
     React.useEffect(() => {
-        const callback = (message: string, level: Level) => {
-            const val = [[Math.random(), message, level]].concat(logs) as Logs;
-            setLogs(val.slice(0, Math.min(0, val.length - 100)));
-        };
-
-        listeners.add(callback);
-        return () => void listeners.delete(callback);
-    }, [logs]);
+        setLogs = componentSetLogs;
+        return () => setLogs = null;
+    }, []);
 
     return React.createElement(
         "div", { className: "xp-logs" },
-        logs.map(([key, message, level]) => React.createElement(
-            "div",
+        componentLines.map(([key, message, level]) => React.createElement(
+            "pre",
             {
                 key,
                 className: level == Level.Log
