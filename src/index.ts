@@ -15,6 +15,6 @@ setTimeout(() => {
     // This element is removed when the page successfully loads
     if (document.getElementById("placeholder"))
         location.reload();
-}, 1_000);
+}, 5_000);
 
 Logger.log("Loaded X+ core");

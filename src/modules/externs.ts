@@ -2,7 +2,7 @@ import type * as ReactTypes from "react";
 import type * as ReactDOMTypes from "react-dom/client";
 import type * as ReactRouter from "react-router";
 import type AppRegistry from "react-native-web";
-import type { APIFetcher, FetchPosts } from "../../types/api/index";
+import type { APIFetcher, FetchPosts, PostActions } from "../../types/api/index";
 import Webpack from "./webpack"
 
 // React library
@@ -22,10 +22,11 @@ export const extern_UserData = Webpack.getString("Bearer", x => x?.__xp_module);
 export const extern_HeartBeat = Webpack.getProps(x => x, "S1");
 
 // API calls
-export const extern_APIFetchUser = Webpack.getString("fetchOneUserByScreenName", x => x?.ZP);
-export const extern_APIFollowing = Webpack.getString("fetchFollowing", x => x?.ZP);
-export const extern_APIBadgeCount = Webpack.getString("fetchBadgeCount", x => x?.Z);
+export const extern_APIFetchUser: Promise<APIFetcher<'ZP', any>> = Webpack.getString("fetchOneUserByScreenName", x => x?.ZP);
+export const extern_APIFollowing: Promise<APIFetcher<'ZP', any>> = Webpack.getString("fetchFollowing", x => x?.ZP);
+export const extern_APIBadgeCount: Promise<APIFetcher<'Z', any>> = Webpack.getString("fetchBadgeCount", x => x?.Z);
 export const extern_APIFetchPosts: Promise<APIFetcher<'Z', FetchPosts>> = Webpack.getString("fetchUserTweets", x => x?.Z);
+export const extern_APIPostActions: Promise<APIFetcher<'ZP', PostActions>> = Webpack.getString("tweetResultByRestId", x => x?.ZP)
 
 // React components
 export const extern_Tweet = Webpack.getString("right_tweet_header_ad_label", x => x?.__xp_module);
