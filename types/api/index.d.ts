@@ -1,6 +1,4 @@
-export interface APIClient {
-
-}
+export interface APIClient { }
 
 export type APIFetcher<Key extends string, Type> = {
     [Prop in Key]: (client: APIClient) => Type;
@@ -8,3 +6,4 @@ export type APIFetcher<Key extends string, Type> = {
 
 export * from "./fetch_posts";
 export * from "./post_actions";
+export * from "./profile_actions";
