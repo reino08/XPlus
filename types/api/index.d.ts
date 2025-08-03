@@ -7,3 +7,4 @@ export type APIFetcher<Key extends string, Type> = {
 export * from "./fetch_posts";
 export * from "./post_actions";
 export * from "./profile_actions";
+export * from "./fetch_user";

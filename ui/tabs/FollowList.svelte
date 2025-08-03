@@ -1,14 +1,16 @@
 <script>
   import { channel, send } from "../commands.ts";
 
+  let list = $state();
+
   channel("follow_list.get", "follow_list.set", (data) => (list = data));
 
-  let list = $state(undefined);
+  const open = () => send("follow_list.open", user);
 </script>
 
 <div>
   {#each list as user}
-    <button onclick={() => send("follow_list.open", user)}>
+    <button onclick={open}>
       {user}
     </button>
   {/each}

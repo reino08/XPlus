@@ -8,6 +8,7 @@
   import Tracker from "./tabs/Tracker.svelte";
   import TabHider from "./tabs/TabHider.svelte";
   import Debug from "./tabs/Debug.svelte";
+  import ProfilePreset from "./tabs/ProfilePreset.svelte";
 
   let selected = $state(-1);
   const Tabs = [
@@ -16,6 +17,7 @@
     ["Theme Picker", ThemePicker],
     ["Tracker", Tracker],
     ["Hidden Tabs", TabHider],
+    ["Profile Preset", ProfilePreset],
     ["Debug", Debug],
   ];
 
@@ -31,7 +33,7 @@
     () => (
       document.addEventListener("keydown", escapeHide),
       () => document.removeEventListener("keydown", escapeHide)
-    )
+    ),
   );
 </script>
 
