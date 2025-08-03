@@ -1,7 +1,7 @@
 <script>
   import { channelOnce, send, subscribe } from "../commands.ts";
 
-  const initial = `# Start a line with a hashtag to have it ignored as a comment
+  const initial = String.raw`# Start a line with a hashtag to have it ignored as a comment
 # Press \`Recompile\` when all changes are done to apply them
 # Each line contains one regex statement with an optional comment
 # The comment following a regex is its name, shown on filtered posts
@@ -21,7 +21,7 @@
 # /\ud83c\udf49/g # Pro-Palestine Spammers
 
 # -- 18+/OF/NSFW accounts
-# /\ud83d(\udd1e|\udc45)/g # NSFW account
+# /(\ud83d\udd1e|\ud83d\udc45)/g # NSFW account
 
 # -- Religious Spammers
 # /\u271d/g # Christians
@@ -54,7 +54,7 @@
 # b/(football|basketball|baseball|soccer|superbowl)/gi # Sports
 
 # -- Annoying Twitter Stuff
-# /hrt/gim # Groomers
+# /hrt/gi # Groomers
 # /(he|she|they|it|xe)\/(him|her|they|them|she|it|xer)/gi # Pronouns
 # b/(^|\s+)\/(j|hj|s|srs|nsrs|gen|tw)($|\s+)/g # Tone Indicators
 # b/dn(i|f)/gi # "DNI"
@@ -64,7 +64,7 @@
   let errCount = $state(0);
 
   const data = channelOnce("filters.get", "filters.set").then(
-    ([data]) => (value = data || initial)
+    ([data]) => (value = data || initial),
   );
 
   subscribe("filters.compiled", (errs) => {
