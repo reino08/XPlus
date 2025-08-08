@@ -73,17 +73,11 @@
     height: calc(100vh - 57px);
 }
 
-.xp-logs div {
-    font-size: 15px;
-    font-family: "TwitterChirp";
-}
-
-.xp-logs div.xp-logs-warn {
+.xp-logs .xp-logs-warn {
     color: orange;
 }
 
-
-.xp-logs div.xp-logs-error {
+.xp-logs .xp-logs-error {
     color: red;
 }
 
