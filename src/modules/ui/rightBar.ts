@@ -10,7 +10,7 @@ const retained = 99;
 let logs = [];
 let setLogs: any;
 listeners.add(function (message: string, level: Level) {
-    logs = [...logs.slice(-retained), [Math.random(), message, level]];
+    logs = [[Math.random(), message, level], ...logs.slice(0, retained)];
     setLogs?.(logs);
 });
 
