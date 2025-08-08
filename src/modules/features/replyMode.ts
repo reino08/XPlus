@@ -2,7 +2,6 @@ import { patchHalves } from "../../patch";
 import { replaceInTree } from "../../utils";
 import { extern_ReplyEditor, extern_APIPostActions, extern_APIFetchPost, extern_Timestamp } from "../externs";
 import { React } from "../react";
-import { PostActions } from "../../../types/api";
 import Logger from "../../logger";
 import { API } from "../api";
 
@@ -122,13 +121,18 @@ async function replyAll(post: any) {
 
         for (const [reply, index] of replies.map((item, index) => [item, index])) {
             post.in_reply_to_status_id = reply;
-            await post_actions.sendTweet(post, bypass);
+            try {
+                await post_actions.sendTweet(post, bypass);
+            } catch (err) {
+                Logger.error("Failed sending post:", err);
+                return;
+            }
 
             const absIndex = index + 1 + total - replies.length;
             Logger.log(`Sent post ${absIndex}/${total}`);
         }
 
-        cursor = entries.find(x => x.entryId.startsWith("cursor-bottom")).content.value;
+        cursor = entries.find(x => x.entryId.startsWith("cursor-bottom"))?.content?.value;
         if (!cursor) return Logger.warn("No cursor object");
     }
 }
