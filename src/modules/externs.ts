@@ -2,7 +2,7 @@ import type * as ReactTypes from "react";
 import type * as ReactDOMTypes from "react-dom/client";
 import type * as ReactRouter from "react-router";
 import type AppRegistry from "react-native-web";
-import type { APIFetcher, FetchPosts, FetchUser, PostActions, ProfileActions } from "../../types/api/index";
+import type { APIFetcher, FetchUserPosts, FetchUser, PostActions, ProfileActions, FetchPost } from "../../types/api/index";
 import Webpack from "./webpack"
 
 // React library
@@ -25,7 +25,8 @@ export const extern_HeartBeat = Webpack.getProps(x => x, "S1");
 export const extern_APIFetchUser: Promise<APIFetcher<'ZP', FetchUser>> = Webpack.getString("fetchOneUserByScreenName", x => x?.ZP);
 export const extern_APIFollowing: Promise<APIFetcher<'ZP', any>> = Webpack.getString("fetchFollowing", x => x?.ZP);
 export const extern_APIBadgeCount: Promise<APIFetcher<'Z', any>> = Webpack.getString("fetchBadgeCount", x => x?.Z);
-export const extern_APIFetchPosts: Promise<APIFetcher<'Z', FetchPosts>> = Webpack.getString("fetchUserTweets", x => x?.Z);
+export const extern_APIFetchPost: Promise<APIFetcher<'Z', FetchPost>> = Webpack.getString("subscriptions_inapp_grok_analyze", x => x?.Z);
+export const extern_APIFetchUserPosts: Promise<APIFetcher<'Z', FetchUserPosts>> = Webpack.getString("fetchUserTweets", x => x?.Z);
 export const extern_APIPostActions: Promise<APIFetcher<'ZP', PostActions>> = Webpack.getString("tweetResultByRestId", x => x?.ZP)
 export const extern_APIProfileActions: Promise<APIFetcher<'Z', ProfileActions>> = Webpack.getString("update_profile", x => x?.Z);
 
@@ -49,3 +50,4 @@ export const extern_WindowHeader = Webpack.getString("backButtonType", x => x?.Z
 export const extern_DMPage = Webpack.getString("_renderForOneColumnLayout", x => x?.__xp_module);
 export const extern_DMMessages = Webpack.getString("DIRECT_MESSAGES_CONVERSATION", x => x?.__xp_module);
 export const extern_RightSidebar = Webpack.getString("rweb_sidebar_lower_whats_happening_enabled", x => x?.__xp_module);
+export const extern_ReplyEditor = Webpack.getString("_measureAndAnimate", x => x?.Z);

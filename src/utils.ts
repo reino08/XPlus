@@ -18,6 +18,17 @@ export function findInTree(current: any, predicate: (x: any) => any, depth?: num
     else return value;
 }
 
+export function replaceInTree(element: React.ReactElement, path: number[], func: (target: React.ReactElement) => React.ReactElement) {
+    if (!path.length) return func(element);
+    const [hd, ...tl] = path;
+    const children = element.props.children.map((child: React.ReactElement, index: number) => {
+        if (index == hd) {
+            return replaceInTree(child, tl, func);
+        } else return child;
+    });
+    return React.cloneElement(element, { children });
+}
+
 export function makeLink(inProps: any, text: string, href: string) {
     return Link(href, e => {
         let props = e(inProps);

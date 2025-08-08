@@ -1,4 +1,4 @@
-export interface FetchPosts {
+export interface FetchUserPosts {
     fetchBusinessProfileTeam: Function,
     /**
      * @deprecated Always returns 0 instructions
