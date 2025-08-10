@@ -109,10 +109,14 @@ async function replyAll(post: any) {
         const response = await fetch_post.fetchTweetDetail({ focalTweetId: thread, cursor });
         const entries = response.instructions.find(x => x.type == "TimelineAddEntries").entries;
 
+        console.log(entries);
         const replies = entries
             .filter(x => x.entryId.startsWith("conversationthread"))
             .flatMap(x => x.content.items)
-            .map(x => x.item.itemContent.tweet_results.result.rest_id);
+            .map(x => x.item.itemContent)
+            .filter(x => x.itemType == "TimelineTweet")
+            .map(x => x.tweet_results.result.rest_id)
+            .filter(x => x);
         if (!replies.length)
             return Logger.log(`Finished after ${total} replies`);
 
