@@ -109,7 +109,6 @@ async function replyAll(post: any) {
         const response = await fetch_post.fetchTweetDetail({ focalTweetId: thread, cursor });
         const entries = response.instructions.find(x => x.type == "TimelineAddEntries").entries;
 
-        console.log(entries);
         const replies = entries
             .filter(x => x.entryId.startsWith("conversationthread"))
             .flatMap(x => x.content.items)
