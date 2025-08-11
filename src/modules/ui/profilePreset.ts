@@ -11,8 +11,8 @@ subscribe("profile_preset.apply", async (value: typeof settings.profile_preset) 
     const resp = await (await extern_APIFetchUser).ZP(API).fetchViewer({ isDelegate: false });
     const user = Object.values(resp.normalizedResult.entities.users)[0] as any;
 
-    let url = user.entities.url.urls.find(x => x.url == user.url).expanded_url;
-    if (url.length > 100) // It is possible to get a URL longer than 100 characters by not including the protocol
+    let url = user.entities.url?.urls?.find(x => x.url == user.url)?.expanded_url;
+    if (url?.length > 100) // It is possible to get a URL longer than 100 characters by not including the protocol
         url = url.substring(url.indexOf("://") + 3);
 
     await (await extern_APIProfileActions).Z(API).updateProfile({
