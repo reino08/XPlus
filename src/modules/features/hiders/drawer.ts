@@ -1,6 +1,6 @@
-import { patchHalves } from "../../patch";
-import { RunApplicationPatch } from "../patches";
-import { settings } from "../../settings.ts";
+import { patchHalves } from "../../../patch.ts";
+import { RunApplicationPatch } from "../../patches.ts";
+import { settings } from "../../../settings.ts";
 
 let instance = undefined;
 

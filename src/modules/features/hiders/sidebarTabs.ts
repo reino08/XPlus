@@ -1,8 +1,8 @@
-import { patchHalves } from "../../patch.ts";
-import { settings } from "../../settings.ts";
-import { SidebarPatch } from "../patches.ts";
-import { React } from "../react.ts";
-import { send, subscribe } from "./commands.ts";
+import { patchHalves } from "../../../patch.ts";
+import { settings } from "../../../settings.ts";
+import { SidebarPatch } from "../../patches.ts";
+import { React } from "../../react.ts";
+import { send, subscribe } from "../../ui/commands.ts";
 
 let hidden: string[] = [];
 

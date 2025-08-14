@@ -51,3 +51,5 @@ export const extern_DMPage = Webpack.getString("_renderForOneColumnLayout", x =>
 export const extern_DMMessages = Webpack.getString("DIRECT_MESSAGES_CONVERSATION", x => x?.__xp_module);
 export const extern_RightSidebar = Webpack.getString("rweb_sidebar_lower_whats_happening_enabled", x => x?.__xp_module);
 export const extern_ReplyEditor = Webpack.getString("_measureAndAnimate", x => x?.Z);
+// export const extern_Timeline = Webpack.getString("_timelineAPI", x => x?.__xp_module);
+export const extern_Timeline = Webpack.getString("_recordTTFV", x => x?.__xp_module);
