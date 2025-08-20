@@ -29,7 +29,11 @@ export function patchHalves(object: any, prop: PropertyKey, before?: Prepatch, a
     __patch(object, prop, (target, self, args) => {
         if (before) {
             let res: NewResult = {};
-            before(self, args, res);
+            try {
+                before(self, args, res);
+            } catch (err) {
+                Logger.error("Error occurred during pre-patch", before, err);
+            }
 
             if (res.value !== undefined)
                 return res.value;
@@ -40,9 +44,13 @@ export function patchHalves(object: any, prop: PropertyKey, before?: Prepatch, a
         let res = Reflect.apply(target, self, args);
 
         if (after) {
-            let newRes = after(self, args, res);
-            if (Array.isArray(newRes))
-                return newRes[0];
+            try {
+                let newRes = after(self, args, res);
+                if (Array.isArray(newRes))
+                    return newRes[0];
+            } catch (err) {
+                Logger.error("Error occurred during post-patch", after, err);
+            }
         }
 
         return res;

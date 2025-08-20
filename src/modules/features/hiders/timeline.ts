@@ -10,5 +10,5 @@ extern_Timeline.then(exports => patchHalves(exports.default.render().type.protot
         }
     }
 
-    self.props.items = self.props.items.filter(entry => !entry.entryId.includes("who-to-follow"));
+    self.props.items = self.props.items.filter(entry => !entry.entryId?.includes("who-to-follow"));
 }));
