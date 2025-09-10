@@ -19,10 +19,14 @@
     const apply = () => send("profile_preset.apply", { ...state });
 </script>
 
-<div>Use \ for a special randomized character</div>
+<div>
+    Quickly change the information on your account. Useful for setting up
+    accounts in your organization/team. Fields left empty will keep their
+    current value.
+</div>
+<div>Use \ for special characters</div>
 <div>\\ is converted to \</div>
 <div>\h is converted to a random hex (0-9, a-f)</div>
-<div>Keep a line empty to reuse the current value</div>
 
 {#await data then}
     <section>
@@ -66,6 +70,7 @@
 <style>
     section {
         display: flex;
+        margin: 8px 0;
     }
 
     section button {

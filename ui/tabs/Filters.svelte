@@ -1,14 +1,7 @@
 <script>
   import { channelOnce, send, subscribe } from "../commands.ts";
 
-  const initial = String.raw`# Start a line with a hashtag to have it ignored as a comment
-# Press \`Recompile\` when all changes are done to apply them
-# Each line contains one regex statement with an optional comment
-# The comment following a regex is its name, shown on filtered posts
-# Optionally prefix a filter to only apply to [b]ios or [u]sernames.
-# The filtered field is shown and does not need to be in the filter name
-#
-# Example filters:
+  const initial = String.raw`# Example filters:
 
 # -- Empty Bio
 # b/^$/ # Empty
@@ -75,6 +68,15 @@
   const save = () => send("filters.set", value);
 </script>
 
+<div>Start a line with a hashtag to have it ignored as a comment.</div>
+<div>Press \`Recompile\` when all changes are done to apply them.</div>
+<div>Each line contains one regex statement with an optional comment.</div>
+<div>The comment following a regex is its name, shown on filtered posts.</div>
+<div>Optionally prefix a filter to only apply to [b]ios or [u]sernames.</div>
+<div>
+  The filtered field is shown and does not need to be in the filter name.
+</div>
+
 {#await data}
   <div>Filter data not found.</div>
 {:then}
@@ -93,6 +95,10 @@
 {/await}
 
 <style>
+  button {
+    margin-top: 8px;
+  }
+
   textarea {
     height: 100%;
     width: 100%;

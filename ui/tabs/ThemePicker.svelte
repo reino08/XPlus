@@ -3,13 +3,13 @@
 
   const data = channelOnce(
     "theme_picker.data.get",
-    "tab.theme_picker.data.set"
+    "tab.theme_picker.data.set",
   ).then(([colors]) => mapColors(colors));
 
   function mapColors(colors) {
     return Object.keys(colors)
       .filter((x) => x.endsWith("600"))
-      .filter((x) => !x.startsWith("primary"))
+      .filter((x) => !x.startsWith("primary") && !x.startsWith("gray"))
       .map((x) => x.substring(0, x.length - 3))
       .map((x) => [
         x,

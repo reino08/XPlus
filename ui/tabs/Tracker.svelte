@@ -24,7 +24,7 @@
 
   subscribe(
     "tracker.resolved",
-    (tracker, current) => (mapping[tracker] = current)
+    (tracker, current) => (mapping[tracker] = current),
   );
 
   function add() {
@@ -40,13 +40,20 @@
   }
 </script>
 
+<div>
+  A tracker account is an account which only follows one person and does not
+  post to avoid suspensions due to automation. The tracker list is like the
+  follower list but clicking on the tracker will resolve to the current account
+  it is following instead of itself.
+</div>
+
 <section>
   <input bind:value placeholder="@UserTracker" spellcheck="false" />
   <button disabled={valid} onclick={add}>Add Tracker</button>
 </section>
 
 {#each Object.entries(mapping) as [tracker, resolved]}
-  <div>
+  <div class="item">
     <span>@{tracker}</span>
     <button onclick={() => send("trackers.resolve", tracker)}>
       {"\u27a4"}
@@ -67,7 +74,7 @@
 
 <style lang="scss">
   section {
-    margin-bottom: 8px;
+    margin: 8px;
     display: flex;
     & > input {
       flex: 1;
@@ -79,7 +86,7 @@
     padding: 0 8px;
   }
 
-  div {
+  .item {
     display: grid;
     grid-template-columns: 1fr auto 1fr auto;
   }

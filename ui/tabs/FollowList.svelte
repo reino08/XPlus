@@ -9,6 +9,12 @@
 </script>
 
 <div>
+  Users you follow will show up in this list. Unfollow them to remove them.
+  Click on their name to go to their account. This list is shared between all
+  accounts.
+</div>
+
+<div class="main">
   {#each list as user}
     <button onclick={open}>
       {user}
@@ -17,7 +23,8 @@
 </div>
 
 <style lang="scss">
-  div {
+  .main {
+    margin-top: 8px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 4px;
