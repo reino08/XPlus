@@ -1,11 +1,12 @@
-import Webpack from "../webpack.ts";
+import { extern_Theme } from "../externs.ts";
 import { send, subscribe } from "./commands.ts";
 
+// This entire module is buggy
 let gate = false;
 let current = undefined;
-Webpack.getProps(x => x?.default, "theme").then(exports => {
+extern_Theme.then(exports => {
     // Keep our UI up to date with the rest of the page
-    exports.default.onThemeChange(theme => {
+    exports.Z.onThemeChange(theme => {
         if (!gate) return;
         gate = false;
 
@@ -21,14 +22,14 @@ Webpack.getProps(x => x?.default, "theme").then(exports => {
         //   so it will not be implemented until there is a problem.
         setTimeout(() => {
             gate = true;
-            exports.default.setPrimaryColor(value as string);
+            exports.Z.setPrimaryColor(value as string);
         }, 1_000);
     });
 
-    subscribe("theme_picker.data.get", () => send("tab.theme_picker.data.set", exports.default.theme.colors));
+    subscribe("theme_picker.data.get", () => send("tab.theme_picker.data.set", exports.Z.theme.colors));
     subscribe("theme_picker.current.set", (key) => {
         gate = true;
-        exports.default.setPrimaryColor(key);
+        exports.Z.setPrimaryColor(key);
         GM.setValue("xp-theme", key);
     });
 });

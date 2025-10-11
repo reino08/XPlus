@@ -53,3 +53,4 @@ export const extern_RightSidebar = Webpack.getString("rweb_sidebar_lower_whats_h
 export const extern_ReplyEditor = Webpack.getString("_measureAndAnimate", x => x?.Z);
 // export const extern_Timeline = Webpack.getString("_timelineAPI", x => x?.__xp_module);
 export const extern_Timeline = Webpack.getString("_recordTTFV", x => x?.__xp_module);
+export const extern_Theme = Webpack.getProps(x => x?.Z, "theme");
